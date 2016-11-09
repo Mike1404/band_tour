@@ -11,4 +11,5 @@ var connection = mysql.createConnection({
     database: 'tour_finance'
 });
 
+connection.connect();
 
