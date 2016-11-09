@@ -12,4 +12,3 @@ var connection = mysql.createConnection({
 });
 
 connection.connect();
-
