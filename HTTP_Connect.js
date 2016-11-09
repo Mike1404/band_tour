@@ -12,19 +12,26 @@ var connection = mysql.createConnection({
 });
 
 connection.connect(function (err) {
-    connection.query(
-        {
-            sql: "select * from band"
-        },
-        function (err, rows, fields) {
-            if (err) throw err;
 
-            console.log("INPUT!!");
-            for (var a = 0; a < rows.length; a++) {
+    if (err) throw err;
 
-                console.log("band", rows[a].prenom, rows[a].nom);
-            }
-            connection.end();
-        }
-    )
+    for (var i = 0; i < 1000; i++) {
+
+        var band_name = "band " + i;
+        var financial_status = 10000;
+        connection.query(
+            {
+                sql: "insert into band values(null, ?, ?)",
+                values: [band_name, financial_status]
+            },
+
+            function (courant) {
+                return function (err, rows) {
+                    if (err) throw err;
+
+                    console.log("added " + courant);
+                }
+            }(i));
+    }
+    connection.end();
 });
