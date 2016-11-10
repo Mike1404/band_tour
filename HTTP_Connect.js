@@ -15,14 +15,32 @@ connection.connect(function (err) {
 
     if (err) throw err;
 
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 5; i++) {           //script for table "band"
 
         var band_name = "band " + i;
-        var financial_status = 10000;
         connection.query(
             {
-                sql: "insert into band values(null, ?, ?)",
-                values: [band_name, financial_status]
+                sql: "insert into band values(null, ?, null)",
+                values: [band_name]
+            },
+
+            function (courant) {
+                return function (err, rows) {
+                    if (err) throw err;
+
+                    console.log("added " + courant);
+                }
+            }(i));
+    }
+    for (var j = 0; j < 100; j++) {           //script for table "city"
+
+        var city_name = "city " + j;
+        var demain = new Date(2016, 4, 20);
+        var tour_date = demain.getDate()+j;
+        connection.query(
+            {
+                sql: "insert into city values(null, ?, ?)",
+                values: [city_name, tour_date]
             },
 
             function (courant) {
