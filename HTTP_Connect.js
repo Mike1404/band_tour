@@ -35,12 +35,29 @@ connection.connect(function (err) {
     for (var j = 0; j < 100; j++) {           //script for table "city"
 
         var city_name = "city " + j;
-        var demain = new Date(2016, 4, 20);
-        var tour_date = demain.getDate()+j;
+        var demain = new Date(2016, 0, 20);
+        var tour_date = new Date(demain.setDate(demain.getDate()+j));
         connection.query(
             {
                 sql: "insert into city values(null, ?, ?)",
                 values: [city_name, tour_date]
+            },
+
+            function (courant) {
+                return function (err, rows) {
+                    if (err) throw err;
+
+                    console.log("added " + courant);
+                }
+            }(i));
+    }
+    for (var k = 0; k < 100; k++) {           //script for finances "band"
+
+        var  = ;
+        connection.query(
+            {
+                sql: "insert into finances values(null, band_name, tour_date, spendings, revenues)",
+                values: [band_name, tour_date, spendings, revenues]
             },
 
             function (courant) {
