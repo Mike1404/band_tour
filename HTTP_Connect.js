@@ -57,7 +57,7 @@ connection.connect(function (err) {
         var revenues = Math.random()*1000;
         connection.query(
             {
-                sql: "insert into finances values(null, band_name, tour_date, spendings, revenues)",
+                sql: "insert into finances values(null, band_name, tour_date, ?, ?)",
                 values: [band_name, tour_date, spendings, revenues]
             },
 
