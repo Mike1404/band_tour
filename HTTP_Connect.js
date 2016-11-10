@@ -28,7 +28,7 @@ connection.connect(function (err) {
                 return function (err, rows) {
                     if (err) throw err;
 
-                    console.log("added " + courant);
+                    console.log("added band " + courant);
                 }
             }(i));
     }
@@ -47,11 +47,11 @@ connection.connect(function (err) {
                 return function (err, rows) {
                     if (err) throw err;
 
-                    console.log("added " + courant);
+                    console.log("added city " + courant);
                 }
             }(j));
     }
-    for (var k = 0; k < 100; k++) {           //script for finances "band"
+    for (var k = 0; k < 100; k++) {           //script for finances "finances"
 
         var spendings = Math.random()*1000;
         var revenues = Math.random()*1000;
@@ -65,7 +65,7 @@ connection.connect(function (err) {
                 return function (err, rows) {
                     if (err) throw err;
 
-                    console.log("added " + courant);
+                    console.log("added finances " + courant);
                 }
             }(k));
     }
