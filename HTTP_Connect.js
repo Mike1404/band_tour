@@ -49,11 +49,12 @@ connection.connect(function (err) {
 
                     console.log("added " + courant);
                 }
-            }(i));
+            }(j));
     }
     for (var k = 0; k < 100; k++) {           //script for finances "band"
 
-        var  = ;
+        var spendings = Math.random()*1000;
+        var revenues = Math.random()*1000;
         connection.query(
             {
                 sql: "insert into finances values(null, band_name, tour_date, spendings, revenues)",
@@ -66,7 +67,7 @@ connection.connect(function (err) {
 
                     console.log("added " + courant);
                 }
-            }(i));
+            }(k));
     }
     connection.end();
 });
