@@ -42,10 +42,7 @@ connection.connect(function (err) {
                         sql: "insert into finances values(null, ?, ?, ?, ?)",
                         values: [band_name, tour_date, spendings, revenues]
                     });
-
         }
     }
-
-
     connection.end();
 });
