@@ -15,6 +15,8 @@ connection.connect(function (err) {
 
     if (err) throw err;
 
+    var financenums = 0;
+
     for (var i = 0; i < 5; i++) {           //script for table "band"
 
         var band_name = "band " + i;
@@ -23,26 +25,35 @@ connection.connect(function (err) {
                 sql: "insert into band values(null, ?, null)",
                 values: [band_name]
             });
-        for (var j = 0; j < 100; j++) {           //script for table "city"
+    }
 
-            var city_name = "city " + j;
-            var demain = new Date(2016, 0, 20);
-            var tour_date = new Date(demain.setDate(demain.getDate()+j));
+
+    for (var j = 0; j < 100; j++) {           //script for table "city"
+
+        var city_name = "city " + j;
+        var demain = new Date(2016, 0, 20);
+        var tour_date = new Date(demain.setDate(demain.getDate() + j));
+        connection.query(
+            {
+                sql: "insert into city values(null, ?, ?)",
+                values: [city_name, tour_date]
+            });
+
+        for (k = 0; k < 5; k++) {
+            var spendings = Math.random() * 1000;
+            var revenues = Math.random() * 1000;
             connection.query(
                 {
-                    sql: "insert into city values(null, ?, ?)",
-                    values: [city_name, tour_date]
+                    sql: "insert into finances values(null, ?, ?, ?, ?)",
+                    values: ["band " + k, tour_date, spendings, revenues]
                 });
-             //for (var k = 0; k < 100; k++) {           //script for finances "finances"
+            financenums += 1;
 
-                var spendings = Math.random()*1000;
-                var revenues = Math.random()*1000;
-                connection.query(
-                    {
-                        sql: "insert into finances values(null, ?, ?, ?, ?)",
-                        values: [band_name, tour_date, spendings, revenues]
-                    });
         }
+
     }
-    connection.end();
+
+    if (financenums == 500) {
+        connection.end();
+    }
 });
