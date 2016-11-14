@@ -1,5 +1,6 @@
 /**
  * Created by Michael Gabriel et Erick Paquin on 09/11/16.
+ * script populates tables in logical manner : 5 bands, 100 cities, one pay / spending amount per band, per city.
  */
 
 var mysql = require('mysql');
