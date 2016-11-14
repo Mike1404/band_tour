@@ -28,7 +28,7 @@ connection.connect(function (err) {
     }
 
 
-    for (var j = 0; j < 100; j++) {           //script for table "city"
+    for (var j = 0; j < 100; j++) {           //script for table "city" & "finance"
 
         var city_name = "city " + j;
         var demain = new Date(2016, 0, 20);
