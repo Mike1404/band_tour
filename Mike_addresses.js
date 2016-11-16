@@ -11,7 +11,8 @@ const PORT=8080;
 
 var req = {
     "band": "select * from band where id = ?",
-    "city": "select * from city where id = ?"
+    "city": "select * from city where id = ?",
+    "finances": "select * from finances where id = ?"
 };
 function handleRequest(request, response){
 
