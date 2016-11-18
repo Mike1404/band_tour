@@ -21,7 +21,7 @@ function handleRequest(request, response){
     }
     var url = request.url;
     var tid = url.split("/")[1];
-    var bandid = url.split("/")[2];
+    var bandID = url.split("/")[2];
 
     var connection = mysql.createConnection({
         host: 'localhost',
@@ -31,12 +31,12 @@ function handleRequest(request, response){
     });
     connection.connect(function (err) {
 
-        var sqlrequest = req[tid];
-        console.log(sqlrequest);
+        var sqlRequest = req[tid];
+        console.log(sqlRequest);
         connection.query(
             {
-                sql: sqlrequest,
-                values: [bandid]
+                sql: sqlRequest,
+                values: [bandID]
             },
             function (err, rows){
                 if (err) throw err;
