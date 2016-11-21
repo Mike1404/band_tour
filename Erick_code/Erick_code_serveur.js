@@ -59,7 +59,8 @@ function handleRequest(request, response) {
         var getreq = {
             "band": "select * from band where band_name = ?",
             "city": "select * from city where city_name = ?",
-            "finances": "select * from finances where band_name = ?"
+            "finances_band": "select * from finances where band_name = ?",
+            "finances_city": "select * from finances where city_name = ?"
         };
 
         connection.connect(function (err) {
@@ -72,10 +73,12 @@ function handleRequest(request, response) {
                     values: [tableID]
                 },
                 function (err, rows) {
-                    if (err) throw err;
+                    if (err) {
+                        fail404(response);
+                    }
                     response.end(JSON.stringify(rows));
-
                 }
+
             );
 
         });
