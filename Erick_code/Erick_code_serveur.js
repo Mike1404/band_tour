@@ -7,26 +7,29 @@ var mysql = require('mysql');
 
 const PORT=8080;
 
-var req = {
-    "band": "select * from band where id = ?",
-    "city": "select * from city where id = ?",
-    "finances": "select * from finances where id = ?"
-};
+
 function handleRequest(request, response){
 
-    if (request.url.toString().includes("ico")){
-        response.end(); return
-    }
+    // grab url parameters
     var url = request.url;
-    var tid = url.split("/")[1];
-    var bandID = url.split("/")[2];
+    var param1 = url.split("/")[1];
+    var param2 = url.split("/")[2];
 
+    // connect to MySQL
     var connection = mysql.createConnection({
         host: 'localhost',
         user: 'tour_manager',
         password: 'abcd',
         database: 'tour_finance'
     });
+
+if(request.method == "GET"){
+    var getreq = {
+        "band": "select * from band where id = ?",
+        "city": "select * from city where id = ?",
+        "finances": "select * from finances where id = ?"
+    };
+
     connection.connect(function (err) {
 
         var sqlRequest = req[tid];
@@ -44,11 +47,27 @@ function handleRequest(request, response){
         );
         if (err) throw err;
     });
+
+
+} else if (request.method == "PUT"){
+
+} else if (request.method == "POST"){
+
+} else if (request.method == "DELETE"){
+
+} else {
+    // if no method, throw error
 }
 
-var server = http.createServer(handleRequest);
+} // end handlerequest
 
-server.listen(PORT, function(){
+
+
+
+/////////////////////////////////////////////////////////////////////////
+var server = http.createServer(handleRequest); // generate http server
+
+server.listen(PORT, function(){ // start listening for requests
 
     console.log("Server listening on: http://localhost:%s", PORT);
 });
