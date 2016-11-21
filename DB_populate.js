@@ -20,7 +20,7 @@ connection.connect(function (err) {
 
     for (var i = 0; i < 5; i++) {           //script for table "band"
 
-        var band_name = "band " + i;
+        var band_name = "band" + i;
         connection.query(
             {
                 sql: "insert into band values(null, ?, null)",
@@ -31,7 +31,7 @@ connection.connect(function (err) {
 
     for (var j = 0; j < 100; j++) {           //script for table "city" & "finance"
 
-        var city_name = "city " + j;
+        var city_name = "city" + j;
         var demain = new Date(2016, 0, 20);
         var tour_date = new Date(demain.setDate(demain.getDate() + j));
         connection.query(
@@ -46,7 +46,7 @@ connection.connect(function (err) {
             connection.query(
                 {
                     sql: "insert into finances values(null, ?, ?, ?, ?)",
-                    values: ["band " + k, tour_date, spendings, revenues]
+                    values: ["band" + k, tour_date, spendings, revenues]
                 });
             financenums += 1;
 
