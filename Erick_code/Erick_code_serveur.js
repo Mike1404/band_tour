@@ -37,6 +37,12 @@ function fail400(response) {
 function handleRequest(request, response) {
 
     // grab url parameters
+
+    if (request.url=="/favicon.ico") {
+        fail404(response);
+        return;
+    }
+
     var url = request.url;
     var table = url.split("/")[1];
     var tableID = url.split("/")[2];
