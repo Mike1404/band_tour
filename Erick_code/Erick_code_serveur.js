@@ -8,6 +8,33 @@ var mysql = require('mysql');
 const PORT=8080;
 
 
+function fail404 (response) {
+    response.statusCode = 404;
+    response.end("404 NOT FOUND!!")
+}
+
+function fail500 (response) {
+    response.statusCode = 500;
+    response.end("SERVER ERROR!!");
+}
+
+function ok200 (response) {
+    response.statusCode = 200;
+    response.end("All good, Bro!");
+}
+
+function ok201 (response) {
+    response.statusCode = 201;
+    response.end("Created, Bro!");
+}
+
+function fail400 (response) {
+    response.statusCode = 400;
+    response.end("BAD REQUEST!!");
+}
+
+
+
 function handleRequest(request, response){
 
     // grab url parameters
