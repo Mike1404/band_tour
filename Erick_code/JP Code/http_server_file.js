@@ -9,7 +9,7 @@ var fs = require("fs");
 const PORT=8080;
 
 function handleRequest(request, response){
-    console.log("url is " + request.url)
+    console.log("url is " + request.url);
     fs.readFile(request.url,  function(err, block) {
         if ( ! err ) {
             response.end(block.toString())
