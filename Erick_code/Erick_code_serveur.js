@@ -68,10 +68,10 @@ function handleRequest(request, response) {
                 function (err, rows) {
                     if (err) throw err;
                     response.end(JSON.stringify(rows));
-                    connection.end();
+
                 }
             );
-            if (err) throw err;
+
         });
 
 
