@@ -18,5 +18,5 @@ Vous devez livrer la structure suivante:
 Express docs: https://www.npmjs.com/package/express  
 MySQLjs docs: https://github.com/mysqljs/mysql  
 Nodejs docs : https://nodejs.org/api/  
-Markdown syntax: http://daringfireball.net/projects/markdown/syntax  
+Markdown syntax: http://daringfireball.net/projects/markdown/syntax
 Javascript Reference: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects  
