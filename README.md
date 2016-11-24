@@ -15,7 +15,7 @@ Vous devez livrer la structure suivante:
 /scripts/create_db.sql (c'est le nom exact du script qui cree votre BD).
 /serveur.sql (c'est le script à exécuter).
 ###################################################
-Express docs: https://www.npmjs.com/package/express  
+Express docs: http://expressjs.com/  
 MySQLjs docs: https://github.com/mysqljs/mysql  
 Nodejs docs : https://nodejs.org/api/  
 Markdown syntax: http://daringfireball.net/projects/markdown/syntax
