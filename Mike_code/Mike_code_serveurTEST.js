@@ -77,9 +77,6 @@ function handleRequest(request, response) {
                         fail404(response);
                     }
                     response.end(JSON.stringify(rows));
-                    if (err) {
-                        fail404(response);
-                    }
                 }
             );
 
