@@ -38,7 +38,7 @@ function handleRequest(request, response) {
 
     // grab url parameters
 
-    if (request.url=="/favicon.ico") {
+    if (request.url == "/favicon.ico") {
         fail404(response);
         return;
     }
@@ -77,8 +77,10 @@ function handleRequest(request, response) {
                         fail404(response);
                     }
                     response.end(JSON.stringify(rows));
+                    if (err) {
+                        fail404(response);
+                    }
                 }
-
             );
 
         });
