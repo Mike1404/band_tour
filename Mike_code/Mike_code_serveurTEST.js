@@ -49,7 +49,7 @@ function handleRequest(request, response) {
 
     // connect to MySQL
     var connection = mysql.createConnection({
-        host: 'localhost',
+        host: '192.168.1.9',
         user: 'tour_manager',
         password: 'abcd',
         database: 'tour_finance'
