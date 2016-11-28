@@ -85,13 +85,92 @@ function handleRequest(request, response) {
 
 
     } else if (request.method == "PUT") {
+        var putreq = {
+            "band": "select * from band where band_name = ?",
+            "city": "select * from city where city_name = ?",
+            "finances_band": "select * from finances where band_name = ?",
+            "finances_city": "select * from finances where city_name = ?"
+        };
+
+        connection.connect(function (err) {
+
+            var sqlRequest = putreq[table];
+            console.log(sqlRequest);
+            connection.query(
+                {
+                    sql: sqlRequest,
+                    values: [tableID]
+                },
+                function (err, rows) {
+                    if (err) {
+                        fail404(response);
+                    }
+                    response.end(JSON.stringify(rows));
+                }
+
+            );
+
+        });
 
     } else if (request.method == "POST") {
+        var postreq = {
+            "band": "select * from band where band_name = ?",
+            "city": "select * from city where city_name = ?",
+            "finances_band": "select * from finances where band_name = ?",
+            "finances_city": "select * from finances where city_name = ?"
+        };
+
+        connection.connect(function (err) {
+
+            var sqlRequest = getreq[table];
+            console.log(sqlRequest);
+            connection.query(
+                {
+                    sql: sqlRequest,
+                    values: [tableID]
+                },
+                function (err, rows) {
+                    if (err) {
+                        fail404(response);
+                    }
+                    response.end(JSON.stringify(rows));
+                }
+
+            );
+
+        });
 
     } else if (request.method == "DELETE") {
+        var delreq = {
+            "band": "select * from band where band_name = ?",
+            "city": "select * from city where city_name = ?",
+            "finances_band": "select * from finances where band_name = ?",
+            "finances_city": "select * from finances where city_name = ?"
+        };
+
+        connection.connect(function (err) {
+
+            var sqlRequest = getreq[table];
+            console.log(sqlRequest);
+            connection.query(
+                {
+                    sql: sqlRequest,
+                    values: [tableID]
+                },
+                function (err, rows) {
+                    if (err) {
+                        fail404(response);
+                    }
+                    response.end(JSON.stringify(rows));
+                }
+
+            );
+
+        });
 
     } else {
         // if no method, throw error
+        fail400(response);
     }
 
 } // end handlerequest
