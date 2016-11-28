@@ -42,7 +42,6 @@ function handleRequest(request, response) {
     var table = url.split("/")[1];
     var tableID = url.split("/")[2];
     var tableIDValue1 = url.split("/")[3]; // VALUE1
-    var tableIDValue2 = url.split("/")[4]; // VALUE2 FOR NOW
 
     // connect to MySQL
     var connection = mysql.createConnection({
