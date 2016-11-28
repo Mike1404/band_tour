@@ -10,22 +10,22 @@ use tour_finance;
 
 # create tables
 create table band(
-id int primary key auto_increment,
-band_name varchar(256) unique, index(band_name),
+id int primary key auto_increment, index(id),
+band_name varchar(256) unique,
 financial_status varchar(256)
 );
 
 create table city(
-id int primary key auto_increment,
-city_name varchar(256), index(city_name),
-tour_date date, index(tour_date)
+id int primary key auto_increment, index(id),
+city_name varchar(256),
+tour_date date
 # band_pay decimal(6,2), index(band_pay)
 );
 
 create table finances(
-id int primary key auto_increment,
-band_name varchar(256), index(band_name),
-tour_date date, index(tour_date),
+id int primary key auto_increment, index(id),
+band_id INT, index(band_id),
+tour_date_id INT, index(tour_date_id),
 spendings decimal(6,2), index(spendings),
 revenues decimal(6,2), index(revenues)
 );
@@ -34,6 +34,5 @@ revenues decimal(6,2), index(revenues)
 # add foreign keys if needed...
 
 alter table finances
-add foreign key (band_name) references band(band_name),
-add foreign key (tour_date) references city(tour_date);
-# add foreign key (revenues) references city(band_pay);
+add foreign key (band_id) references band(id),
+add foreign key (tour_date_id) references city(id);

@@ -63,7 +63,7 @@ function handleRequest(request, response) {
         connection.connect(function (err) {
 
             var sqlRequest = getreq[table];
-            console.log(sqlRequest);
+
             connection.query(
                 {
                     sql: sqlRequest,
@@ -71,10 +71,12 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        console.log(sqlRequest);
                         throw err;
                         fail404(response);
                     }
                     ok200(response);
+                    console.log(sqlRequest);
                     response.end(JSON.stringify(rows));
                 }
 
@@ -85,10 +87,10 @@ function handleRequest(request, response) {
 
     } else if (request.method == "PUT") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
         var putreq = {
-            "band": "update band set ? = ? where band_name = ?",
-            "city": "update city set ? = ? where city_name = ?",
-            "finances_band": "update finances set ? = ? where band_name = ?",
-            "finances_city": "update finances set ? = ? where city_name = ?"
+            "band": "update band set band_name = ? where band_name = ?",
+            "city": "update city set city_name = ? where city_name = ?",
+            "finances_band": "update finances set band_name = ? where band_name = ?",
+            "finances_city": "update finances set city_name = ? where city_name = ?"
         };
 
         connection.connect(function (err) {
@@ -98,14 +100,16 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID, tableIDValue1, tableIDValue2]
+                    values: [tableID,tableIDValue1]
                 },
                 function (err, rows) {
                     if (err) {
+                        console.log(sqlRequest);
                         throw err;
                         fail404(response);
                     }
                     ok200(response);
+                    console.log(sqlRequest);
                     response.end(JSON.stringify(rows));
                 }
 
@@ -132,10 +136,12 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        console.log(sqlRequest);
                         throw err;
                         fail404(response);
                     }
                     ok201(response);
+                    console.log(sqlRequest);
                     response.end(JSON.stringify(rows));
                 }
 
@@ -163,10 +169,12 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        console.log(sqlRequest);
                         throw err;
                         fail404(response);
                     }
                     ok200(response);
+                    console.log(sqlRequest);
                     response.end(JSON.stringify(rows));
                 }
 
