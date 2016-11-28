@@ -13,11 +13,6 @@ function fail404(response) {
     response.end("404 NOT FOUND!!")
 }
 
-function fail500(response) {
-    response.statusCode = 500;
-    response.end("SERVER ERROR!!");
-}
-
 function ok200(response) {
     response.statusCode = 200;
     response.end("All good, Bro!");
@@ -46,6 +41,7 @@ function handleRequest(request, response) {
     var url = request.url;
     var table = url.split("/")[1];
     var tableID = url.split("/")[2];
+    var tableIDValue = url.split("/")[3]; // used for PUT statements only.
 
     // connect to MySQL
     var connection = mysql.createConnection({
@@ -76,6 +72,7 @@ function handleRequest(request, response) {
                     if (err) {
                         fail404(response);
                     }
+                    ok200(response);
                     response.end(JSON.stringify(rows));
                 }
 
@@ -84,12 +81,12 @@ function handleRequest(request, response) {
         });
 
 
-    } else if (request.method == "PUT") {
+    } else if (request.method == "PUT") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
         var putreq = {
-            "band": "select * from band where band_name = ?",
-            "city": "select * from city where city_name = ?",
-            "finances_band": "select * from finances where band_name = ?",
-            "finances_city": "select * from finances where city_name = ?"
+            "band": "update band set ?=? where band_name = ?",
+            "city": "update city set ?=? where city_name = ?",
+            "finances_band": "update finances set ?=? where band_name = ?",
+            "finances_city": "update finances set ?=? where city_name = ?"
         };
 
         connection.connect(function (err) {
@@ -99,12 +96,13 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID]
+                    values: [table,tableID, tableIDValue]
                 },
                 function (err, rows) {
                     if (err) {
                         fail404(response);
                     }
+                    ok200(response);
                     response.end(JSON.stringify(rows));
                 }
 
@@ -112,17 +110,17 @@ function handleRequest(request, response) {
 
         });
 
-    } else if (request.method == "POST") {
+    } else if (request.method == "POST") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
         var postreq = {
-            "band": "select * from band where band_name = ?",
-            "city": "select * from city where city_name = ?",
-            "finances_band": "select * from finances where band_name = ?",
-            "finances_city": "select * from finances where city_name = ?"
+            "band": "insert into band values(null, ?, null)",
+            "city": "insert into city values(null, ?, ?)"
+
+            // "finances_city": "select * from finances where city_name = ?"
         };
 
         connection.connect(function (err) {
 
-            var sqlRequest = getreq[table];
+            var sqlRequest = postreq[table];
             console.log(sqlRequest);
             connection.query(
                 {
@@ -133,6 +131,7 @@ function handleRequest(request, response) {
                     if (err) {
                         fail404(response);
                     }
+                    ok201(response);
                     response.end(JSON.stringify(rows));
                 }
 
@@ -142,25 +141,27 @@ function handleRequest(request, response) {
 
     } else if (request.method == "DELETE") {
         var delreq = {
-            "band": "select * from band where band_name = ?",
-            "city": "select * from city where city_name = ?",
-            "finances_band": "select * from finances where band_name = ?",
-            "finances_city": "select * from finances where city_name = ?"
+            "band": "delete from band where band_name = ?",
+            "city": "delete from city where city_name = ?",
+            "finances_band": "delete from finances where band_name = ?",
+            "finances_city": "delete from finances where city_name = ?",
+            "finances_band_city": "delete from finances where band_name = ? and city_name = ?"
         };
 
         connection.connect(function (err) {
 
-            var sqlRequest = getreq[table];
+            var sqlRequest = delreq[table];
             console.log(sqlRequest);
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID]
+                    values: [tableID, tableIDValue]
                 },
                 function (err, rows) {
                     if (err) {
                         fail404(response);
                     }
+                    ok200(response);
                     response.end(JSON.stringify(rows));
                 }
 
