@@ -71,6 +71,7 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        throw err;
                         fail404(response);
                     }
                     ok200(response);
@@ -84,10 +85,10 @@ function handleRequest(request, response) {
 
     } else if (request.method == "PUT") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
         var putreq = {
-            "band": "update band set ?=? where band_name = ?",
-            "city": "update city set ?=? where city_name = ?",
-            "finances_band": "update finances set ?=? where band_name = ?",
-            "finances_city": "update finances set ?=? where city_name = ?"
+            "band": "update band set ? = ? where band_name = ?",
+            "city": "update city set ? = ? where city_name = ?",
+            "finances_band": "update finances set ? = ? where band_name = ?",
+            "finances_city": "update finances set ? = ? where city_name = ?"
         };
 
         connection.connect(function (err) {
@@ -101,6 +102,7 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        throw err;
                         fail404(response);
                     }
                     ok200(response);
@@ -130,6 +132,7 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        throw err;
                         fail404(response);
                     }
                     ok201(response);
@@ -160,6 +163,7 @@ function handleRequest(request, response) {
                 },
                 function (err, rows) {
                     if (err) {
+                        throw err;
                         fail404(response);
                     }
                     ok200(response);
