@@ -13,14 +13,14 @@ function fail404(response) {
     response.end("404 NOT FOUND!!")
 }
 
-function ok200(response) {
+function ok200(response, rows) {
     response.statusCode = 200;
-    response.end("All good, Bro!");
+    response.end(JSON.stringify(rows));
 }
 
-function ok201(response) {
+function ok201(response, rows) {
     response.statusCode = 201;
-    response.end("Created, Bro!");
+    response.end("Created, " + JSON.stringify(rows) + " Bro!");
 }
 
 function fail400(response) {
@@ -75,9 +75,10 @@ function handleRequest(request, response) {
                         throw err;
                         fail404(response);
                     }
-                    ok200(response);
+
+                    ok200(response, rows);
                     console.log(sqlRequest);
-                    response.end(JSON.stringify(rows));
+
                 }
 
             );
@@ -108,9 +109,10 @@ function handleRequest(request, response) {
                         throw err;
                         fail404(response);
                     }
-                    ok200(response);
+
+                    ok200(response, rows);
                     console.log(sqlRequest);
-                    response.end(JSON.stringify(rows));
+
                 }
 
             );
@@ -140,9 +142,8 @@ function handleRequest(request, response) {
                         throw err;
                         fail404(response);
                     }
-                    ok201(response);
+                    ok201(response, rows);
                     console.log(sqlRequest);
-                    response.end(JSON.stringify(rows));
                 }
 
             );
@@ -173,9 +174,8 @@ function handleRequest(request, response) {
                         throw err;
                         fail404(response);
                     }
-                    ok200(response);
+                    ok200(response, rows);
                     console.log(sqlRequest);
-                    response.end(JSON.stringify(rows));
                 }
 
             );
