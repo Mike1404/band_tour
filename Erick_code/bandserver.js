@@ -41,7 +41,8 @@ function handleRequest(request, response) {
     var url = request.url;
     var table = url.split("/")[1];
     var tableID = url.split("/")[2];
-    var tableIDValue = url.split("/")[3]; // used for PUT statements only.
+    var tableIDValue1 = url.split("/")[3]; // VALUE1
+    var tableIDValue2 = url.split("/")[4]; // VALUE2 FOR NOW
 
     // connect to MySQL
     var connection = mysql.createConnection({
@@ -96,7 +97,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [table,tableID, tableIDValue]
+                    values: [tableID, tableIDValue1, tableIDValue2]
                 },
                 function (err, rows) {
                     if (err) {
@@ -155,7 +156,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID, tableIDValue]
+                    values: [tableID, tableIDValue1]
                 },
                 function (err, rows) {
                     if (err) {
