@@ -12,7 +12,7 @@ var connection = mysql.createConnection({
     database: 'tour_finance'
 });
 
-connection.connect(function (err) {
+connection.connect(function (err, rows) {
 
     if (err) throw err;
 
