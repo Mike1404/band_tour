@@ -16,16 +16,16 @@ connection.connect(function (err, rows) {
 
     if (err) throw err;
 
+    var financenums = 0;
+
     for (var i = 0; i < 5; i++) {           //script for table "band"
 
         var band_name = "band" + i;
-
         connection.query(
             {
                 sql: "insert into band values(null, ?, null)",
                 values: [band_name]
             });
-
     }
 
 
@@ -40,51 +40,21 @@ connection.connect(function (err, rows) {
                 values: [city_name, tour_date]
             });
 
-    }
-
-        for (var k = 0; k < 5; k++) {
-
+        for (k = 0; k < 5; k++) {
+            var spendings = Math.random() * 1000;
+            var revenues = Math.random() * 1000;
             connection.query(
                 {
-                    sql: "select id from band where band_name = ?",
-                    values: ["band" + k]
-                }, function (err, rows) {
-                    bandid = rows[0].id;
-                    getdateid(bandid);
+                    sql: "insert into finances values(null, ?, ?, ?, ?)",
+                    values: ["band" + k, tour_date, spendings, revenues]
                 });
+            financenums += 1;
+
         }
 
-    function getdateid(theval) {
-        var bandid = theval;
-
-
-        for (var l = 0; l < 100; l++) {
-
-            connection.query(
-                {
-                    sql: "select id from city where city_name = ?",
-                    values: ["city" + l]
-                }, function (err, rows) {
-                    var dateid = rows[0].id;
-                    insertfinance(bandid, dateid);
-                });
-        }
     }
 
-    function insertfinance(bandid, dateid) {
-        var spendings = Math.random() * 1000;
-        var revenues = Math.random() * 1000;
-        var thebandid = bandid;
-        var thedateid = dateid;
-        connection.query(
-            {
-                sql: "insert into finances values(null, ?, ?, ?, ?)",
-                values: [thebandid, thedateid, spendings, revenues]
-            }, function (err, rows) {
-                if (err) throw err;
-            });
+    if (financenums == 500) {
+        connection.end();
     }
-
-
-
 });

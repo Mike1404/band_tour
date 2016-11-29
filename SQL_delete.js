@@ -21,16 +21,18 @@ connection.connect(function (err) {
         connection.query(
             {
                 sql: "delete from finances"
+            }, function(){
+                connection.query(
+                    {
+                        sql: "delete from city"
+                    }, function(){
+                        connection.query(
+                            {
+                                sql: "DELETE FROM band"
+
+                        },function(){
+                            connection.end()  ;
+                        });
+                    });
             });
-    connection.query(
-        {
-            sql: "delete from city"
-        });
-    connection.query(
-        {
-            sql: "DELETE FROM band;"
-        });
-
-
-    connection.end();
 });
