@@ -16,7 +16,7 @@ connection.connect(function (err, rows) {
 
     if (err) throw err;
 
-    for (var i = 0; i < 5; i++) {           //script for table "band"
+    for (var i = 1; i < 6; i++) {           //script for table "band"
 
         var band_name = "band" + i;
 
@@ -29,7 +29,7 @@ connection.connect(function (err, rows) {
     }
 
 
-    for (var j = 0; j < 100; j++) {           //script for table "city" & "finance"
+    for (var j = 1; j < 101; j++) {           //script for table "city" & "finance"
 
         var city_name = "city" + j;
         var demain = new Date(2016, 0, 20);
@@ -42,7 +42,7 @@ connection.connect(function (err, rows) {
 
     }
 
-        for (var k = 0; k < 5; k++) {
+        for (var k = 1; k < 6; k++) {
 
             connection.query(
                 {
@@ -58,7 +58,7 @@ connection.connect(function (err, rows) {
         var bandid = theval;
 
 
-        for (var l = 0; l < 100; l++) {
+        for (var l = 1; l < 101; l++) {
 
             connection.query(
                 {
