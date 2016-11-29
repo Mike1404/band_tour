@@ -28,7 +28,7 @@ function fail400(response) {
     response.end("BAD REQUEST!!");
 }
 
-function delete_band(band_name){
+function delete_band(band_name, connection){
     connection.connect(function (err) {
 
         //var sqlRequest = delreq[table];
@@ -59,7 +59,7 @@ function delete_band(band_name){
     });
 }
 
-function delete_city(city_name){
+function delete_city(city_name, connection){
     connection.connect(function (err) {
 
         //var sqlRequest = delreq[table];
@@ -90,7 +90,7 @@ function delete_city(city_name){
     });
 }
 
-function delete_finance(table){
+function delete_finance(table, connection){
     var delreq = {
         "finances_band": "delete from finances where band_name = ?",
         "finances_city": "delete from finances where city_name = ?",
@@ -244,16 +244,17 @@ function handleRequest(request, response) {
         });
 
     } else if (request.method == "DELETE") {
+        console.log(table);
 
-        if(table == "band"){
-            delete_band(param1);
+        if(!table.localeCompare("band")){
+            delete_band(param1, connection);
         }
 
-        if(table == "city"){
-            delete_city(param1);
+        if(table === "city"){
+            delete_city(param1, connection);
 
         } else {
-            delete_finance(table);
+            delete_finance(table, connection);
         }
 
     } else {
