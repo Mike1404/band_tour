@@ -40,8 +40,10 @@ function handleRequest(request, response) {
 
     var url = request.url;
     var table = url.split("/")[1];
-    var tableID = url.split("/")[2];
-    var tableIDValue1 = url.split("/")[3]; // VALUE1
+    var param1 = url.split("/")[2];
+    var param2 = url.split("/")[3];
+    var param3 = url.split("/")[4];
+    var param4 = url.split("/")[5];
 
     // connect to MySQL
     var connection = mysql.createConnection({
@@ -66,7 +68,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID]
+                    values: [param1]
                 },
                 function (err, rows) {
                     if (err) {
@@ -100,7 +102,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID,tableIDValue1]
+                    values: [param1,param2]
                 },
                 function (err, rows) {
                     if (err) {
@@ -121,9 +123,8 @@ function handleRequest(request, response) {
     } else if (request.method == "POST") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
         var postreq = {
             "band": "insert into band values(null, ?, null)",
-            "city": "insert into city values(null, ?, ?)"
-
-            // "finances_city": "select * from finances where city_name = ?"
+            "city": "insert into city values(null, ?, ?)",
+            "finances": "insert into finances values(null, ?,?,?,?)"
         };
 
         connection.connect(function (err) {
@@ -133,7 +134,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID]
+                    values: [param1, param2, param3, param4]
                 },
                 function (err, rows) {
                     if (err) {
@@ -165,7 +166,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [tableID, tableIDValue1]
+                    values: [param1, param2]
                 },
                 function (err, rows) {
                     if (err) {
