@@ -28,105 +28,11 @@ function fail400(response) {
     response.end("BAD REQUEST!!");
 }
 
-function delete_band(band_name, connection){
-    connection.connect(function (err) {
-
-        //var sqlRequest = delreq[table];
-        //console.log(sqlRequest);
-        connection.query(
-            {
-                sql: "delete from finances where finance.band_id = (select band.id from tour_finance.band where band.band_name = ?",
-                values: [band_name]
-            },
-            function (err, rows, band_name) {
-                if (err) {
-                    //console.log(sqlRequest);
-                    throw err;
-                    fail404(response);
-                }
-                connection.query(
-                    {
-                        sql: "delete from band where band_name = ?",
-                        values:[band_name]
-                    }
-                );
-                ok200(response, rows);
-                //console.log(sqlRequest);
-            }
-
-        );
-
-    });
-}
-
-function delete_city(city_name, connection){
-    connection.connect(function (err) {
-
-        //var sqlRequest = delreq[table];
-        //console.log(sqlRequest);
-        connection.query(
-            {
-                sql: "delete from finances where finances.tour_date_id = (select city.id from tour_finance.city where city.city_name = ?",
-                values: [city_name]
-            },
-            function (err, rows, city_name) {
-                if (err) {
-                    //console.log(sqlRequest);
-                    throw err;
-                    fail404(response);
-                }
-                connection.query(
-                    {
-                        sql: "delete from city where city_name = ?",
-                        values: [city_name]
-                    }
-                );
-                ok200(response, rows);
-                //console.log(sqlRequest);
-            }
-
-        );
-
-    });
-}
-
-function delete_finance(table, connection){
-    var delreq = {
-        "finances_band": "delete from finances where band_name = ?",
-        "finances_city": "delete from finances where city_name = ?",
-        "finances_band_city": "delete from finances where band_name = ? and city_name = ?"
-    };
-
-    connection.connect(function (err) {
-
-        var sqlRequest = delreq[table];
-        console.log(sqlRequest);
-        connection.query(
-            {
-                sql: sqlRequest,
-                values: [param1, param2]
-            },
-            function (err, rows) {
-                if (err) {
-                    console.log(sqlRequest);
-                    throw err;
-                    fail404(response);
-                }
-                ok200(response, rows);
-                console.log(sqlRequest);
-            }
-
-        );
-
-    });
-}
-
-
 function handleRequest(request, response) {
 
     // grab url parameters
 
-    if (request.url=="/favicon.ico") {
+    if (request.url == "/favicon.ico") {
         fail404(response);
         return;
     }
@@ -174,7 +80,6 @@ function handleRequest(request, response) {
                     console.log(sqlRequest);
 
                 }
-
             );
 
         });
@@ -195,7 +100,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [param1,param2]
+                    values: [param1, param2]
                 },
                 function (err, rows) {
                     if (err) {
@@ -208,7 +113,6 @@ function handleRequest(request, response) {
                     console.log(sqlRequest);
 
                 }
-
             );
 
         });
@@ -238,23 +142,81 @@ function handleRequest(request, response) {
                     ok201(response, rows);
                     console.log(sqlRequest);
                 }
-
             );
 
         });
 
     } else if (request.method == "DELETE") {
-        console.log(table);
 
-        if(!table.localeCompare("band")){
-            delete_band(param1, connection);
+
+        if (table == "band") {
+
+            connection.query(
+                "delete from finances where band_id = (select id from band where band_name = ?)",
+                [param1],
+                function (err, rows) {
+                    if (err) {
+                        //console.log(sqlRequest);
+                        throw err;
+                        // fail404(response);
+                    }
+
+                    connection.query("delete from band where band_name = ?", [param1], function (err, rows) {
+                        ok200(response, rows);
+                        // server.close();
+                        // process.exit(0);
+                    });
+                });
+
         }
 
-        if(table === "city"){
-            delete_city(param1, connection);
+        if (table === "city") {
+
+            connection.query(
+                "delete from finances where tour_date_id = (select id from city where city_name = ?)",
+                [param1],
+                function (err, rows) {
+                    if (err) {
+                        //console.log(sqlRequest);
+                        throw err;
+                        // fail404(response);
+                    }
+
+                    connection.query("delete from city where city_name = ?", [param1], function (err, rows) {
+                        ok200(response, rows);
+                        // server.close();
+                        // process.exit(0);
+                    });
+                });
 
         } else {
-            delete_finance(table, connection);
+            var delreq = {
+                "finances_band": "delete from finances where band_name = ?",
+                "finances_city": "delete from finances where city_name = ?",
+                "finances_band_city": "delete from finances where band_name = ? and city_name = ?"
+            };
+
+            connection.connect(function (err) {
+
+                var sqlRequest = delreq[table];
+                console.log(sqlRequest);
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [param1, param2]
+                    },
+                    function (err, rows) {
+                        if (err) {
+                            console.log(sqlRequest);
+                            throw err;
+                            fail404(response);
+                        }
+                        ok200(response, rows);
+                        console.log(sqlRequest);
+                    }
+                );
+
+            });
         }
 
     } else {
