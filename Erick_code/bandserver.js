@@ -15,12 +15,12 @@ function fail404(response) {
 
 function ok200(response, rows) {
     response.statusCode = 200;
-    response.end(JSON.stringify(rows));
+    response.end("OK Man!!");
 }
 
-function ok201(response, rows) {
+function ok201(response, rows, fields) {
     response.statusCode = 201;
-    response.end("Created, " + JSON.stringify(rows) + " Bro!");
+    response.end("Created, Bro!");
 }
 
 function fail400(response) {
@@ -89,8 +89,8 @@ function handleRequest(request, response) {
         var putreq = {
             "band": "update band set band_name = ? where band_name = ?",
             "city": "update city set city_name = ? where city_name = ?",
-            "finances_band": "update finances set band_name = ? where band_name = ?",
-            "finances_city": "update finances set city_name = ? where city_name = ?"
+            "finances_spendings": "update finances set spendings = ? where band_id = ? && tour_date_id = ? ",
+            "finances_revenues": "update finances set revenues = ? where band_id = ? && tour_date_id = ?"
         };
 
         connection.connect(function (err) {
@@ -100,7 +100,7 @@ function handleRequest(request, response) {
             connection.query(
                 {
                     sql: sqlRequest,
-                    values: [param1, param2]
+                    values: [param1, param2, param3]
                 },
                 function (err, rows) {
                     if (err) {
@@ -133,13 +133,13 @@ function handleRequest(request, response) {
                     sql: sqlRequest,
                     values: [param1, param2, param3, param4]
                 },
-                function (err, rows) {
+                function (err, rows, fields) {
                     if (err) {
                         console.log(sqlRequest);
                         throw err;
                         fail404(response);
                     }
-                    ok201(response, rows);
+                    ok201(response, rows, fields);
                     console.log(sqlRequest);
                 }
             );
@@ -170,7 +170,7 @@ function handleRequest(request, response) {
 
         }
 
-        if (table === "city") {
+        else if (table === "city") {
 
             connection.query(
                 "delete from finances where tour_date_id = (select id from city where city_name = ?)",
@@ -191,9 +191,9 @@ function handleRequest(request, response) {
 
         } else {
             var delreq = {
-                "finances_band": "delete from finances where band_name = ?",
-                "finances_city": "delete from finances where city_name = ?",
-                "finances_band_city": "delete from finances where band_name = ? and city_name = ?"
+                "finances_band": "delete from finances where band_id = ?",
+                "finances_city": "delete from finances where tour_date_id = ?",
+                "finances_band_city": "delete from finances where band_id = ? and tour_date_id = ?"
             };
 
             connection.connect(function (err) {
