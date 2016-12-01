@@ -8,17 +8,12 @@ var mysql = require('mysql');
 const PORT = 8080;
 
 
-function fail404(response) {
-    response.statusCode = 404;
-    response.end("404 NOT FOUND!!")
-}
-
-function ok200(response, rows) {
+function ok200(response) {
     response.statusCode = 200;
-    response.end("OK Man!!");
+    response.end("\nOK Man!!");
 }
 
-function ok201(response, rows, fields) {
+function ok201(response) {
     response.statusCode = 201;
     response.end("Created, Bro!");
 }
@@ -30,10 +25,8 @@ function fail400(response) {
 
 function handleRequest(request, response) {
 
-    // grab url parameters
-
     if (request.url == "/favicon.ico") {
-        fail404(response);
+        fail400(response);
         return;
     }
 
@@ -44,7 +37,6 @@ function handleRequest(request, response) {
     var param3 = url.split("/")[4];
     var param4 = url.split("/")[5];
 
-    // connect to MySQL
     var connection = mysql.createConnection({
         host: 'localhost',
         user: 'tour_manager',
@@ -61,6 +53,10 @@ function handleRequest(request, response) {
         };
 
         connection.connect(function (err) {
+            if (err)
+            {
+                throw err;
+            }
 
             var sqlRequest = getreq[table];
 
@@ -70,22 +66,18 @@ function handleRequest(request, response) {
                     values: [param1]
                 },
                 function (err, rows) {
-                    if (err) {
-                        console.log(sqlRequest);
-                        throw err;
-                        fail404(response);
+                    if (err)
+                    {
+                        fail400(response);
                     }
-
-                    ok200(response, rows);
-                    console.log(sqlRequest);
-
+                    response.write(JSON.stringify(rows));
+                    ok200(response);
                 }
             );
 
         });
 
-
-    } else if (request.method == "PUT") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
+    } else if (request.method == "PUT") {
         var putreq = {
             "band": "update band set band_name = ? where band_name = ?",
             "city": "update city set city_name = ? where city_name = ?",
@@ -94,30 +86,30 @@ function handleRequest(request, response) {
         };
 
         connection.connect(function (err) {
-
+            if (err)
+            {
+                throw err;
+            }
             var sqlRequest = putreq[table];
-            console.log(sqlRequest);
             connection.query(
                 {
                     sql: sqlRequest,
                     values: [param1, param2, param3]
                 },
-                function (err, rows) {
-                    if (err) {
-                        console.log(sqlRequest);
-                        throw err;
-                        fail404(response);
+                function (err) {
+                    if (err)
+                    {
+
+                        fail400(response);
                     }
 
-                    ok200(response, rows);
-                    console.log(sqlRequest);
-
+                    ok200(response);
                 }
             );
 
         });
 
-    } else if (request.method == "POST") { // ??? 1er = colonne, 2iem = valeur de remplacement, 3iem = Reference unique
+    } else if (request.method == "POST") {
         var postreq = {
             "band": "insert into band values(null, ?, null)",
             "city": "insert into city values(null, ?, ?)",
@@ -125,22 +117,23 @@ function handleRequest(request, response) {
         };
 
         connection.connect(function (err) {
+            if (err)
+            {
+                throw err;
+            }
 
             var sqlRequest = postreq[table];
-            console.log(sqlRequest);
             connection.query(
                 {
                     sql: sqlRequest,
                     values: [param1, param2, param3, param4]
                 },
-                function (err, rows, fields) {
-                    if (err) {
-                        console.log(sqlRequest);
-                        throw err;
-                        fail404(response);
+                function (err) {
+                    if (err)
+                    {
+                        fail400(response);
                     }
-                    ok201(response, rows, fields);
-                    console.log(sqlRequest);
+                    ok201(response);
                 }
             );
 
@@ -154,17 +147,18 @@ function handleRequest(request, response) {
             connection.query(
                 "delete from finances where band_id = (select id from band where band_name = ?)",
                 [param1],
-                function (err, rows) {
-                    if (err) {
-                        //console.log(sqlRequest);
-                        throw err;
-                        // fail404(response);
+                function (err) {
+                    if (err)
+                    {
+                        fail400(response);
                     }
 
-                    connection.query("delete from band where band_name = ?", [param1], function (err, rows) {
-                        ok200(response, rows);
-                        // server.close();
-                        // process.exit(0);
+                    connection.query("delete from band where band_name = ?", [param1], function (err) {
+                        if (err)
+                        {
+                            fail400(response);
+                        }
+                        ok200(response);
                     });
                 });
 
@@ -175,17 +169,18 @@ function handleRequest(request, response) {
             connection.query(
                 "delete from finances where tour_date_id = (select id from city where city_name = ?)",
                 [param1],
-                function (err, rows) {
-                    if (err) {
-                        //console.log(sqlRequest);
-                        throw err;
-                        // fail404(response);
+                function (err) {
+                    if (err)
+                    {
+                        fail400(response);
                     }
 
-                    connection.query("delete from city where city_name = ?", [param1], function (err, rows) {
-                        ok200(response, rows);
-                        // server.close();
-                        // process.exit(0);
+                    connection.query("delete from city where city_name = ?", [param1], function (err) {
+                        if (err)
+                        {
+                            fail400(response);
+                        }
+                        ok200(response);
                     });
                 });
 
@@ -197,40 +192,39 @@ function handleRequest(request, response) {
             };
 
             connection.connect(function (err) {
+                if (err)
+                {
+                    throw err;
+                }
 
                 var sqlRequest = delreq[table];
-                console.log(sqlRequest);
                 connection.query(
                     {
                         sql: sqlRequest,
                         values: [param1, param2]
                     },
-                    function (err, rows) {
-                        if (err) {
-                            console.log(sqlRequest);
-                            throw err;
-                            fail404(response);
+                    function (err) {
+                        if (err)
+                        {
+                            fail400(response);
                         }
-                        ok200(response, rows);
-                        console.log(sqlRequest);
+                        ok200(response);
                     }
                 );
 
             });
         }
 
-    } else {
-        // if no method, throw error
+    } else
+    {
+
         fail400(response);
     }
 
-} // end handlerequest
+}
 
+var server = http.createServer(handleRequest);
 
-/////////////////////////////////////////////////////////////////////////
-var server = http.createServer(handleRequest); // generate http server
-
-server.listen(PORT, function () { // start listening for requests
-
+server.listen(PORT, function () {
     console.log("Server listening on: http://localhost:%s", PORT);
 });
