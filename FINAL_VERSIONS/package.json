@@ -1,0 +1,23 @@
+{
+  "name": "band_tour",
+  "version": "1.0.0",
+  "description": "This app displays and manipulates finance data from a music tour with bands. ",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mike1404/band_tour.git"
+  },
+  "author": "Erick Paquin & Michael Gabriel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mike1404/band_tour/issues"
+  },
+  "homepage": "https://github.com/Mike1404/band_tour#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "mysql": "^2.12.0"
+  }
+}
