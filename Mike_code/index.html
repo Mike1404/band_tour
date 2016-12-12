@@ -2,9 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <title>Tour Finances for a band</title>
+    <script language="JavaScript">
+        var styles = ["rouge", "vert"];
+        var counter = 0;
+        function react(element) {
+            console.log("je suis cliqued ", element);
+            element.className = styles[counter % 2];
+            // element.innerHTML = counter;
+            element.estCliqued = true;
+            counter++
+        }
+        function reset() {
+            console.log("RESET!");
+            var x = document.getElementsByTagName("td");
+            for (var i = 0; i < x.length; i++) {
+                x[i].className="";
+                x[i].estCliqued = undefined;
+            }
+        }
+    </script>
+    <style type="text/css">
+        td {
+            width: 33%;
+            height: 160px;
+            text-align: center;
+        }
 
-</body>
+        .rouge {
+            background-color: blue;
+        }
+
+        .vert {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<bodystyle>
+
+    <table style="width:1000px; height: 480px" border="1">
+        <tr>
+            <td onclick="react(this)"></td>
+            <td onclick="react(this)"></td>
+            <td onclick="react(this)"></td>
+        </tr>
+        <tr>
+            <td onclick="react(this)"></td>
+            <td onclick="react(this)"></td>
+            <td onclick="react(this)"></td>
+        </tr>
+        <tr>
+            <td onclick="react(this)"></td>
+            <td onclick="react(this)"></td>
+            <td onclick="react(this)"></td>
+        </tr>
+        <tr>
+            <td onclick="reset(this)"><b>RESET</b></td>
+        </tr>
+
+
+    </table>
+</bodystyle>
 </html>
