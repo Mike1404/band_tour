@@ -19,23 +19,31 @@
 <body>
 
 <form>
-    <b>Prenom:</b>
-    <input type="text" name="prenom" id="prenom">
-    <br>
-    <b>Nom:</b>
-    <input type="text" name="nom" id="nom">
-    <br>
-    <b>Age:</b>
-    <input type="number" name="age" id="age">
-    <br>
-
-    <b>Sexe:</b>
-    <select id="sexe">
-        <option value="masculin">Masculin</option>
-        <option value="feminin">Feminin</option>
-    </select>
-    <br>
-    <input type="button" name="sauvegarde" value="Sauvegarder" onclick="nimportequoi(this);">
+    <table>
+        <tr>
+            <td><b>Prenom:</b></td>
+            <td><input type="text" name="prenom" id="prenom"></td>
+        </tr>
+        <tr>
+            <td><b>Nom:</b></td>
+            <td><input type="text" name="nom" id="nom"></td>
+        </tr>
+        <tr>
+            <td><b>Age:</b></td>
+            <td><input type="number" name="age" id="age"></td>
+        </tr>
+        <tr>
+            <td><b>Sexe:</b></td>
+            <td><select id="sexe">
+                <option value="masculin">Masculin</option>
+                <option value="feminin">Feminin</option>
+            </select></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="center"><input type="button" name="sauvegarde" value="Sauvegarder" onclick="nimportequoi(this);"></td>
+        </tr>
+    </table>
 </form>
 
 </body>
