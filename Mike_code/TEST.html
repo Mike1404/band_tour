@@ -5,6 +5,25 @@
     <title>Formulaire d'inscription</title>
     <script language="JavaScript">
 
+        var info_a_ajouter = {
+            nom: "Un Nom",
+            prenom: "Un prenom",
+            age: 17,
+            sexe: "m",
+            enfants: ["Pierre", "Jean", "Jacques"]
+        };
+
+        function fairetableau(){
+            var table = document.createElement("table");
+            for(var i=0; i<info_a_ajouter.enfants.length; i++) {
+                var line = document.createElement("tr");
+                line.innerHTML = "<td>" + info_a_ajouter.enfants[i] + "</td>";
+                table.appendChild(line);
+            }
+            var form = document.getElementsByTagName("form");
+            form[0].appendChild(table);
+        }
+
         function nimportequoi(){
             var leprenom = document.getElementById("prenom").value;
             var lenom = document.getElementById("nom").value;
@@ -42,6 +61,10 @@
         <tr>
             <td></td>
             <td align="center"><input type="button" name="sauvegarde" value="Sauvegarder" onclick="nimportequoi(this);"></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td align="center"><input type="button" name="afficher" value="Afficher!" onclick="fairetableau(this);"></td>
         </tr>
     </table>
 </form>
