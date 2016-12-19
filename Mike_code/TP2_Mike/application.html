@@ -6,6 +6,11 @@
 </head>
 <script language="JavaScript">
 
+    function ok200(response) {
+        response.statusCode = 200;
+        console.log("ALL GOOD BRO!!")
+    }
+
     function fail404(response) {
         response.statusCode = 404;
         response.end("404 NOT FOUND!!");
@@ -20,7 +25,26 @@
         request.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var divID = document.getElementById("ceci");
-                divID.innerHTML = this.responseText
+                divID.innerHTML = this.responseText;
+                ok200(response);
+            }
+            if (this.readyState == 4 && this.status == 404) {
+                fail404(response);
+            }
+        };
+        request.open("GET", i + ".html" , true);
+        request.send();
+    }
+
+    function precedent () {
+        i = i - 1;
+        var request = new XMLHttpRequest();
+
+        request.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                var divID = document.getElementById("ceci");
+                divID.innerHTML = this.responseText;
+                ok200(response);
             }
             if (this.readyState == 4 && this.status == 404) {
                 fail404(response);
@@ -34,7 +58,7 @@
 
 <div id="ceci"></div>
 
-<button id="previous">Previous</button> <button id="next" onclick="prochain()">Next</button>
+<button id="previous" onclick="precedent()">Previous</button> <button id="next" onclick="prochain()">Next</button>
 
 </body>
 </html>
