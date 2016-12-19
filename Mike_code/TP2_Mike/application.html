@@ -6,48 +6,42 @@
 </head>
 <script language="JavaScript">
 
-    function ok200(response) {
-        response.statusCode = 200;
-        console.log("ALL GOOD BRO!!")
-    }
-
-    function fail404(response) {
-        response.statusCode = 404;
-        response.end("404 NOT FOUND!!");
-    }
-
     var i = 0;
 
-    function prochain () {
+    function prochain ()
+    {
         i = i + 1;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200)
+            {
                 var divID = document.getElementById("ceci");
                 divID.innerHTML = this.responseText;
-                ok200(response);
             }
-            if (this.readyState == 4 && this.status == 404) {
-                fail404(response);
+            if (this.readyState == 4 && this.status == 404)
+            {
+                console.log(404);
             }
         };
         request.open("GET", i + ".html" , true);
         request.send();
     }
 
-    function precedent () {
+    function precedent ()
+    {
         i = i - 1;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200)
+            {
                 var divID = document.getElementById("ceci");
                 divID.innerHTML = this.responseText;
-                ok200(response);
             }
-            if (this.readyState == 4 && this.status == 404) {
-                fail404(response);
+            if (this.readyState == 4 && this.status == 404)
+            {
+                console.log(404);
             }
         };
         request.open("GET", i + ".html" , true);
