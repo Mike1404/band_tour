@@ -1,0 +1,5 @@
+delete from finances where finances.band_id = (select band.id from tour_finance.band where band.band_name = ?);
+delete from band where band_name = ?
+
+delete from finances where finances.tour_date_id = (select city.id from tour_finance.city where city.city_name = ?);
+delete from city where city_name = ?

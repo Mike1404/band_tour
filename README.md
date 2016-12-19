@@ -1,19 +1,20 @@
-# Band Tour Finance Project
-Énoncé 
-Vous devez, en utilisant votre modèle de base de données, créer un serveur web qui permet d'exécuter des operation CRUD
- (Create, Read, Update, Delete), sur chacune des entités de votre modèle.
+# Band Tour Finance Project (TP2)
+Vous devez, en utilisant votre serveur développé au TP1, permettre la creation, mise-à-jour et l'effacement de données de l'une de vos tables gérées par le serveur.
 
-Les URLs pour accéder ces données doivent etre du format /nom_entité (ex: /professeur) ou /nom_entite/cle_primaire 
-(ex: /professeur/37).
-La création d'une entité se fera avec un POST sur l'URL d'entité (POST sur /professeur), et retournera une réponse HTTP 
-201 avec URL de retour.
-Les trois autres opérations effectueront les opérations standard, tel que vu en classe, et retourneront une réponse HTTP 200.
-Unn demande d'objet qui n'existe pas (ex: GET /professeur/id_inexistant) retourena un code HTTP 400.
-Les messages échangés auront un format JSON.
+Cette modification doit être faite par une page Web servie par votre serveur.   A partir de cette page Web, on doit pouvoir lister les éléments de la table. À partir de cette même page on doit pouvoir:
 
-Vous devez livrer la structure suivante:
-/scripts/create_db.sql (c'est le nom exact du script qui cree votre BD).
-/serveur.sql (c'est le script à exécuter).
+1) Modifier les champs de cette ligne
+2) Effacer chacune des lignes individuellement
+3) Crée une nouvelle ligne et la sauvegarder dans le serveur.
+
+
+Pour servir la page HTML, vous pouvez utiliser la fonction handleFile() fournies par LEA, ou écrire la votre.
+
+Vous devez livrer:
+1) Le script de creation, nommé create_db.sql
+2) Un script de population, nommé populate_db.sql
+3) Une page html pour modifier les données, nommée modify.html
+4) Le script nodejs pour executer le serveur, nommé server.js
 ###################################################
 Express docs: http://expressjs.com/  
 MySQLjs docs: https://github.com/mysqljs/mysql  
