@@ -176,15 +176,13 @@
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState == 4 && this.status == 200)
+            {
                 var divID = document.getElementById("container");
                 var CaptureData = JSON.parse(this.responseText);
                 var RowNum = CaptureData.length;
-                console.log(RowNum);
                 var ColName = Object.keys(CaptureData[0]);  // is an array of strings
-                console.log(ColName);
                 var ColNum = Object.keys(CaptureData[0]).length;
-                console.log(ColNum);
                 var innerFOR = "";
 
                 for (var i=0; i<ColNum; i++)
@@ -194,6 +192,7 @@
 
                 divID.innerHTML = '<div class="row">' + innerFOR +'</div>';
             }
+
             if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
