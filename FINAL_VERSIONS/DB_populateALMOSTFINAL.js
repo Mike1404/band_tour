@@ -42,17 +42,17 @@ connection.connect(function (err, rows) {
 
     }
 
-        for (var k = 1; k < 6; k++) {
+    for (var k = 1; k < 6; k++) {
 
-            connection.query(
-                {
-                    sql: "select id from band where band_name = ?",
-                    values: ["band" + k]
-                }, function (err, rows) {
-                    bandid = rows[0].id;
-                    getdateid(bandid);
-                });
-        }
+        connection.query(
+            {
+                sql: "select id from band where band_name = ?",
+                values: ["band" + k]
+            }, function (err, rows) {
+                bandid = rows[0].id;
+                getdateid(bandid);
+            });
+    }
 
     function getdateid(theval) {
         var bandid = theval;
@@ -71,6 +71,8 @@ connection.connect(function (err, rows) {
         }
     }
 
+    var insertedFinance = 0;
+
     function insertfinance(bandid, dateid) {
         var spendings = Math.random() * 1000;
         var revenues = Math.random() * 1000;
@@ -82,9 +84,13 @@ connection.connect(function (err, rows) {
                 values: [thebandid, thedateid, spendings, revenues]
             }, function (err, rows) {
                 if (err) throw err;
+                insertedFinance++;
+                if (insertedFinance == 500) {
+                    connection.end();
+                }
+
             });
     }
-
 
 
 });

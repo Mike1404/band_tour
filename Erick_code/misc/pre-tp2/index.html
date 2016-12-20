@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <script>
+        function getPage(laclasse) {
+            var request = new XMLHttpRequest();
+
+            request.open("GET", laclasse, true);
+            request.send();
+
+            request.onreadystatechange = function() {
+                if ( this.readyState == 4 && this.status == 200 ) {
+                   var monelement = document.getElementsByClassName("content")[0];
+                   monelement.innerHTML = this.responseText;
+                }
+            }
+
+
+
+        }
+    </script>
+</head>
+<body>
+<div class="content">Cliquer sur un bouton pour loader une page...</div>
+<button class="prev" onclick="return getPage(this.className)">Prev.</button><button class="next" onclick="return getPage(this.className)">Next</button>
+</body>
+</html>
