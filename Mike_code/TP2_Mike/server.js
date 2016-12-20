@@ -83,9 +83,8 @@ function handleRequest(request, response) {
     if (request.method == "GET") {
         var getreq = {
             "band": "select * from band",
-            "city": "select * from city where city_name = ?",
-            "finances_band": "select * from finances where band_name = ?",
-            "finances_city": "select * from finances where city_name = ?"
+            "city": "select * from city",
+            "finances": "select * from finances"
         };
 
         connection.connect(function (err) {
