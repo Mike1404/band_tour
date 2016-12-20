@@ -4,47 +4,195 @@
     <meta charset="UTF-8">
     <title>Application</title>
 </head>
+<style>
+
+    html,
+    body,
+    div,
+    span,
+    applet,
+    object,
+    iframe,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    pre,
+    a,
+    abbr,
+    acronym,
+    address,
+    big,
+    cite,
+    code,
+    del,
+    dfn,
+    rem,
+    img,
+    ins,
+    kbd,
+    q,
+    s,
+    samp,
+    small,
+    strike,
+    strong,
+    sub,
+    sup,
+    tt,
+    var,
+    b,
+    u,
+    i,
+    center,
+    dl,
+    dt,
+    dd,
+    ol,
+    ul,
+    li,
+    fieldset,
+    form,
+    label,
+    legend,
+    table,
+    caption,
+    tbody,
+    tfoot,
+    thead,
+    tr,
+    th,
+    td,
+    article,
+    aside,
+    canvas,
+    details,
+    rembed,
+    figure,
+    figcaption,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    output,
+    ruby,
+    section,
+    summary,
+    time,
+    mark,
+    audio,
+    video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        vertical-align: top;
+    }
+
+    /* HTML5 display-role reset for older browsers */
+
+    article,
+    aside,
+    details,
+    figcaption,
+    figure,
+    footer,
+    header,
+    hgroup,
+    menu,
+    nav,
+    section {
+        display: block;
+    }
+
+    body {
+        line-height: 1;
+    }
+
+    ol,
+    ul {
+        list-style: none;
+    }
+
+    blockquote,
+    q {
+        quotes: none;
+    }
+
+    blockquote:before,
+    blockquote:after,
+    q:before,
+    q:after {
+        content: '';
+        content: none;
+    }
+
+    table {
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    /* end of css reset */
+
+    /* makes box model take into account border and padding for total width: */
+
+    *,
+    *:after,
+    *:before {
+        box-sizing: border-box;
+    }
+
+    @media (min-width: 1026px) {
+        .row {
+            width: 100%;
+            display: table;
+            table-layout: fixed
+        }
+
+        .col {
+            display: table-cell
+        }
+    }
+</style>
 <script language="JavaScript">
 
     var i = 0;
 
-    function prochain ()
-    {
+    function prochain() {
         i = i + 1;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200)
-            {
+            if (this.readyState == 4 && this.status == 200) {
                 var divID = document.getElementById("ceci");
                 divID.innerHTML = this.responseText;
             }
-            if (this.readyState == 4 && this.status == 404)
-            {
+            if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
         };
-        request.open("GET", i + ".html" , true);
+        request.open("GET", i + ".html", true);
         request.send();
     }
 
-    function precedent ()
-    {
+    function precedent() {
         i = i - 1;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200)
-            {
+            if (this.readyState == 4 && this.status == 200) {
                 var divID = document.getElementById("ceci");
                 divID.innerHTML = this.responseText;
             }
-            if (this.readyState == 4 && this.status == 404)
-            {
+            if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
         };
-        request.open("GET", i + ".html" , true);
+        request.open("GET", i + ".html", true);
         request.send();
     }
 </script>
@@ -52,7 +200,8 @@
 
 <div id="container"></div>
 
-<button id="previous" onclick="precedent()">Previous</button> <button id="next" onclick="prochain()">Next</button>
+<button id="previous" onclick="precedent()">Previous</button>
+<button id="next" onclick="prochain()">Next</button>
 
 </body>
 </html>
