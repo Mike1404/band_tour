@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Application</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <style>
 
@@ -169,6 +171,7 @@
 </style>
 <script language="JavaScript">
 
+
     function load(buttonID) {
         var request = new XMLHttpRequest();
 
@@ -176,12 +179,20 @@
             if (this.readyState == 4 && this.status == 200) {
                 var divID = document.getElementById("container");
                 var CaptureData = JSON.parse(this.responseText);
-                divID.innerHTML = '<div class="row">' +
-                    '<div class="col">ID</div>' +
-                    '<div class="col">BANDNAME</div>' +
-                    '<div class="col">POOP</div>' +
-                    '<div class="col">CAC</div>' +
-                    '</div>';
+                var RowNum = CaptureData.length;
+                console.log(RowNum);
+                var ColName = Object.keys(CaptureData[0]);  // is an array of strings
+                console.log(ColName);
+                var ColNum = Object.keys(CaptureData[0]).length;
+                console.log(ColNum);
+                var innerFOR = "";
+
+                for (var i=0; i<ColNum; i++)
+                {
+                    innerFOR += '<div class="col">' + ColName[i] + '</div>';
+                }
+
+                divID.innerHTML = '<div class="row">' + innerFOR +'</div>';
             }
             if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
@@ -189,7 +200,7 @@
         };
         request.open("GET", "band", true);
         request.send();
-
+        return false;
     }
 
     //    var i = 0;
@@ -233,13 +244,13 @@
 <h1>Finances for a tour</h1>
 <div class="row">
     <div class="col">
-        <button id="band" onclick="load(this.id)">Load Bands</button>
+        <button id="band" onclick="return load(this.id)">Load Bands</button>
     </div>
     <div class="col">
-        <button id="city" onclick="load(this.id)">Load Cities</button>
+        <button id="city" onclick="return load(this.id)">Load Cities</button>
     </div>
     <div class="col">
-        <button id="finances" onclick="load(this.id)">Load Finances</button>
+        <button id="finances" onclick="return load(this.id)">Load Finances</button>
     </div>
 </div>
 

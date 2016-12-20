@@ -4,27 +4,63 @@
 
 var http = require('http');
 var mysql = require('mysql');
+var fs = require('fs');
 
 const PORT = 8080;
+
+function handleFile(request, response) {
+
+    if (! request.url.match(/^.*\..*$/)) {
+        return false;
+    }
+
+    var extension = request.url.split(".")[1];
+    var types = {
+        "html": "text/html",
+        "jpg": "image/jpeg",
+        "gif": "image/gif"
+    };
+
+    var mimeType = types[extension];
+    if ( mimeType != undefined) {
+
+        response.setHeader('Content-Type', mimeType);
+    }
+
+    fs.readFile( __dirname + request.url, function (err, data) {
+        if (err) {
+            response.statusCode = 404;
+            response.end();
+            return true;
+        }
+
+        response.statusCode = 200;
+        response.end(data);
+        return true;
+    });
+    return true;
+}
 
 
 function ok200(response) {
     response.statusCode = 200;
-    response.end("\nOK Man!!");
+    console.log("\nOK Man!!");
 }
 
 function ok201(response) {
     response.statusCode = 201;
-    response.end("Created, Bro!");
+    console.log("Created, Bro!");
 }
 
 function fail400(response) {
     response.statusCode = 400;
-    response.end("BAD REQUEST!!");
+    console.log("BAD REQUEST!!");
 }
 
 function handleRequest(request, response) {
-
+    if (handleFile(request,response)) {
+        return;
+    }
     if (request.url == "/favicon.ico") {
         fail400(response);
         return;
@@ -69,8 +105,8 @@ function handleRequest(request, response) {
                     {
                         fail400(response);
                     }
-                    response.write(JSON.stringify(rows));
-                    ok200(response);
+                    response.end(JSON.stringify(rows));
+                    //ok200(response);
                 }
             );
 
