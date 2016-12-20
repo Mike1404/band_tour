@@ -46,7 +46,7 @@ function handleRequest(request, response) {
 
     if (request.method == "GET") {
         var getreq = {
-            "band": "select * from band where band_name = ?",
+            "band": "select * from band",
             "city": "select * from city where city_name = ?",
             "finances_band": "select * from finances where band_name = ?",
             "finances_city": "select * from finances where city_name = ?"
@@ -62,8 +62,7 @@ function handleRequest(request, response) {
 
             connection.query(
                 {
-                    sql: sqlRequest,
-                    values: [param1]
+                    sql: sqlRequest
                 },
                 function (err, rows) {
                     if (err)

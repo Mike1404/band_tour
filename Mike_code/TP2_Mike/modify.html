@@ -154,54 +154,97 @@
         }
 
         .col {
-            display: table-cell
+            display: table-cell;
+            text-align: center;
         }
+    }
+
+    body {
+        text-align: center;
+    }
+
+    h1 {
+        padding-bottom: 1em;
     }
 </style>
 <script language="JavaScript">
 
-    var i = 0;
-
-    function prochain() {
-        i = i + 1;
+    function load(buttonID) {
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                var divID = document.getElementById("ceci");
-                divID.innerHTML = this.responseText;
+                var divID = document.getElementById("container");
+                var CaptureData = JSON.parse(this.responseText);
+                divID.innerHTML = '<div class="row">' +
+                    '<div class="col">ID</div>' +
+                    '<div class="col">BANDNAME</div>' +
+                    '<div class="col">POOP</div>' +
+                    '<div class="col">CAC</div>' +
+                    '</div>';
             }
             if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
         };
-        request.open("GET", i + ".html", true);
+        request.open("GET", "band", true);
         request.send();
+
     }
 
-    function precedent() {
-        i = i - 1;
-        var request = new XMLHttpRequest();
-
-        request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                var divID = document.getElementById("ceci");
-                divID.innerHTML = this.responseText;
-            }
-            if (this.readyState == 4 && this.status == 404) {
-                console.log(404);
-            }
-        };
-        request.open("GET", i + ".html", true);
-        request.send();
-    }
+    //    var i = 0;
+    //
+    //    function prochain() {
+    //        i = i + 1;
+    //        var request = new XMLHttpRequest();
+    //
+    //        request.onreadystatechange = function () {
+    //            if (this.readyState == 4 && this.status == 200) {
+    //                var divID = document.getElementById("ceci");
+    //                divID.innerHTML = this.responseText;
+    //            }
+    //            if (this.readyState == 4 && this.status == 404) {
+    //                console.log(404);
+    //            }
+    //        };
+    //        request.open("GET", i + ".html", true);
+    //        request.send();
+    //    }
+    //
+    //    function precedent() {
+    //        i = i - 1;
+    //        var request = new XMLHttpRequest();
+    //
+    //        request.onreadystatechange = function () {
+    //            if (this.readyState == 4 && this.status == 200) {
+    //                var divID = document.getElementById("ceci");
+    //                divID.innerHTML = this.responseText;
+    //            }
+    //            if (this.readyState == 4 && this.status == 404) {
+    //                console.log(404);
+    //            }
+    //        };
+    //        request.open("GET", i + ".html", true);
+    //        request.send();
+    //    }
 </script>
-<body>
+<body class="body">
+
+<h1>Finances for a tour</h1>
+<div class="row">
+    <div class="col">
+        <button id="band" onclick="load(this.id)">Load Bands</button>
+    </div>
+    <div class="col">
+        <button id="city" onclick="load(this.id)">Load Cities</button>
+    </div>
+    <div class="col">
+        <button id="finances" onclick="load(this.id)">Load Finances</button>
+    </div>
+</div>
+
 
 <div id="container"></div>
-
-<button id="previous" onclick="precedent()">Previous</button>
-<button id="next" onclick="prochain()">Next</button>
 
 </body>
 </html>
