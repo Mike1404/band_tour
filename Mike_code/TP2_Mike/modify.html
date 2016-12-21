@@ -67,16 +67,14 @@
 
                     var RowData = CaptureData[j];
                     var Col = Object.keys(RowData);
-                    //console.log(Col[0]);
+                    var InnerForBody = '<div class="row">';
 
                     for (var k = 0; k < ColNum; k++) {
-
                         var ColData = RowData[Col[k]];
-                        console.log(ColData);
-
                         InnerForData += '<div class="col">' + ColData + '</div>';
                     }
-                    TableBody.innerHTML = '<div class="row">' + InnerForData + '</div>';
+                    InnerForBody += InnerForData + '</div>';
+                    TableBody.innerHTML = InnerForBody;
                 }
             }
 
