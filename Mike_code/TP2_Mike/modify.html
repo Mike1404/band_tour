@@ -58,13 +58,12 @@
                 var ColName = Object.keys(CaptureData[0]);  // is an array of strings
                 var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
                 var InnerForHeader = "";
-                var InnerForData = "";
 
                 for (var i = 0; i < ColNum; i++)
                 {
                     InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
                 }
-
+                TableBody.innerHTML = "";
                 TableHeader.innerHTML = '<div class="row">' + InnerForHeader + '</div>';
 
                 for (var j = 0; j < RowNum; j++)
@@ -72,6 +71,7 @@
                     var RowData = CaptureData[j];
                     var Col = Object.keys(RowData);
                     var InnerForBody = '<div class="row">';
+                    var InnerForData = "";
 
                     for (var k = 0; k < ColNum; k++)
                     {
@@ -80,7 +80,7 @@
                     }
 
                     InnerForBody += InnerForData + '</div>';
-                    TableBody.innerHTML = InnerForBody;
+                    TableBody.innerHTML += InnerForBody;
                 }
             }
 
@@ -93,41 +93,6 @@
         return false;
     }
 
-    //    var i = 0;
-    //
-    //    function prochain() {
-    //        i = i + 1;
-    //        var request = new XMLHttpRequest();
-    //
-    //        request.onreadystatechange = function () {
-    //            if (this.readyState == 4 && this.status == 200) {
-    //                var divID = document.getElementById("ceci");
-    //                divID.innerHTML = this.responseText;
-    //            }
-    //            if (this.readyState == 4 && this.status == 404) {
-    //                console.log(404);
-    //            }
-    //        };
-    //        request.open("GET", i + ".html", true);
-    //        request.send();
-    //    }
-    //
-    //    function precedent() {
-    //        i = i - 1;
-    //        var request = new XMLHttpRequest();
-    //
-    //        request.onreadystatechange = function () {
-    //            if (this.readyState == 4 && this.status == 200) {
-    //                var divID = document.getElementById("ceci");
-    //                divID.innerHTML = this.responseText;
-    //            }
-    //            if (this.readyState == 4 && this.status == 404) {
-    //                console.log(404);
-    //            }
-    //        };
-    //        request.open("GET", i + ".html", true);
-    //        request.send();
-    //    }
 </script>
 <body class="body">
 
