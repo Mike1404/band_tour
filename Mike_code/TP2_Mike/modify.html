@@ -43,30 +43,48 @@
 <script language="JavaScript">
 
 
-    function load(buttonID) {
+    function load(ButtonId) {
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                var divID = document.getElementById("container");
+                var TableHeader = document.getElementById("tableheader");
+                var TableBody = document.getElementById("tablebody");
                 var CaptureData = JSON.parse(this.responseText);
                 var RowNum = CaptureData.length;
                 var ColName = Object.keys(CaptureData[0]);  // is an array of strings
-                var ColNum = Object.keys(CaptureData[0]).length;
-                var innerFOR = "";
+                var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
+                var InnerForHeader = "";
+                var InnerForData = "";
+
 
                 for (var i = 0; i < ColNum; i++) {
-                    innerFOR += '<div class="col">' + ColName[i] + '</div>';
+                    InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
                 }
+                TableHeader.innerHTML = '<div class="row">' + InnerForHeader + '</div>';
 
-                divID.innerHTML = '<div class="row">' + innerFOR + '</div>';
+                for (var j = 0; j < RowNum; j++) {
+
+                    var RowData = CaptureData[j];
+                    var Col = Object.keys(RowData);
+                    //console.log(Col[0]);
+
+                    for (var k = 0; k < ColNum; k++) {
+
+                        var ColData = RowData[Col[k]];
+                        console.log(ColData);
+
+                        InnerForData += '<div class="col">' + ColData + '</div>';
+                    }
+                    TableBody.innerHTML = '<div class="row">' + InnerForData + '</div>';
+                }
             }
 
             if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
         };
-        request.open("GET", buttonID, true);
+        request.open("GET", ButtonId, true);
         request.send();
         return false;
     }
@@ -123,7 +141,8 @@
 </div>
 
 
-<div id="container"></div>
+<div id="tableheader"></div>
+<div id="tablebody"></div>
 
 </body>
 </html>

@@ -18,7 +18,8 @@ function handleFile(request, response) {
     var types = {
         "html": "text/html",
         "jpg": "image/jpeg",
-        "gif": "image/gif"
+        "gif": "image/gif",
+        "css":"text/stylesheet"
     };
 
     var mimeType = types[extension];
