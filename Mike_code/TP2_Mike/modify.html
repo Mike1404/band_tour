@@ -62,7 +62,8 @@
                 {
                     InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
                 }
-                TableHeader.innerHTML = '<div class="row">' + InnerForHeader + '</div>';
+                TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
+                TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '</div>';
 
                 TableBody.innerHTML = "";
                 for (var j = 0; j < RowNum; j++)
