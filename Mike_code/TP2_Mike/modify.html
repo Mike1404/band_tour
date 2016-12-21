@@ -9,8 +9,6 @@
 </head>
 <style>
 
-
-
     /* makes box model take into account border and padding for total width: */
 
     *,
@@ -39,7 +37,9 @@
     h1 {
         padding-bottom: 1em;
     }
+
 </style>
+
 <script language="JavaScript">
 
 
@@ -47,8 +47,7 @@
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200)
-            {
+            if (this.readyState == 4 && this.status == 200) {
                 var divID = document.getElementById("container");
                 var CaptureData = JSON.parse(this.responseText);
                 var RowNum = CaptureData.length;
@@ -56,19 +55,18 @@
                 var ColNum = Object.keys(CaptureData[0]).length;
                 var innerFOR = "";
 
-                for (var i=0; i<ColNum; i++)
-                {
+                for (var i = 0; i < ColNum; i++) {
                     innerFOR += '<div class="col">' + ColName[i] + '</div>';
                 }
 
-                divID.innerHTML = '<div class="row">' + innerFOR +'</div>';
+                divID.innerHTML = '<div class="row">' + innerFOR + '</div>';
             }
 
             if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
         };
-        request.open("GET", buttonID , true);
+        request.open("GET", buttonID, true);
         request.send();
         return false;
     }
