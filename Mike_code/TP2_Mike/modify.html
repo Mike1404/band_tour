@@ -46,8 +46,11 @@
     function load(ButtonId) {
         var request = new XMLHttpRequest();
 
-        request.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
+        request.onreadystatechange = function ()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+
                 var TableHeader = document.getElementById("tableheader");
                 var TableBody = document.getElementById("tablebody");
                 var CaptureData = JSON.parse(this.responseText);
@@ -57,22 +60,25 @@
                 var InnerForHeader = "";
                 var InnerForData = "";
 
-
-                for (var i = 0; i < ColNum; i++) {
+                for (var i = 0; i < ColNum; i++)
+                {
                     InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
                 }
+
                 TableHeader.innerHTML = '<div class="row">' + InnerForHeader + '</div>';
 
-                for (var j = 0; j < RowNum; j++) {
-
+                for (var j = 0; j < RowNum; j++)
+                {
                     var RowData = CaptureData[j];
                     var Col = Object.keys(RowData);
                     var InnerForBody = '<div class="row">';
 
-                    for (var k = 0; k < ColNum; k++) {
+                    for (var k = 0; k < ColNum; k++)
+                    {
                         var ColData = RowData[Col[k]];
                         InnerForData += '<div class="col">' + ColData + '</div>';
                     }
+
                     InnerForBody += InnerForData + '</div>';
                     TableBody.innerHTML = InnerForBody;
                 }
