@@ -50,7 +50,6 @@
         {
             if (this.readyState == 4 && this.status == 200)
             {
-
                 var TableHeader = document.getElementById("tableheader");
                 var TableBody = document.getElementById("tablebody");
                 var CaptureData = JSON.parse(this.responseText);
@@ -63,9 +62,9 @@
                 {
                     InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
                 }
-                TableBody.innerHTML = "";
                 TableHeader.innerHTML = '<div class="row">' + InnerForHeader + '</div>';
 
+                TableBody.innerHTML = "";
                 for (var j = 0; j < RowNum; j++)
                 {
                     var RowData = CaptureData[j];
@@ -78,12 +77,10 @@
                         var ColData = RowData[Col[k]];
                         InnerForData += '<div class="col">' + ColData + '</div>';
                     }
-
                     InnerForBody += InnerForData + '</div>';
                     TableBody.innerHTML += InnerForBody;
                 }
             }
-
             if (this.readyState == 4 && this.status == 404) {
                 console.log(404);
             }
