@@ -75,18 +75,14 @@
                     var Col = Object.keys(RowData);
                     var InnerForBody = '<div class="row line">';
                     var InnerForData = "";
-//                    var ParentRow = document.getElementsByClassName('line');
-//                    var ChildRow = ParentRow.childNodes[1];
-//                    var InnerChild = ChildRow.innerHTML;
-//                    console.log(InnerChild);
 
                     for (var k = 0; k < ColNum; k++)
                     {
                         var ColData = RowData[Col[k]];
-                        InnerForData += '<div class="col">' + ColData + '</div>';
+                        InnerForData += '<div class="col" contenteditable="true">' + ColData + '</div>';
                     }
-                    InnerForBody += InnerForData + '<div class="col"><button class="modify" onclick="modify(this.parentNode.parentNode.firstChild.innerHTML)">Modify</button>' +
-                        '<button class="delete" onclick="remove()">Delete</button></div></div>';
+                    InnerForBody += InnerForData + '<div class="col"><button class="modify" onclick="modify(this.parentNode.parentNode)">Update</button>' +
+                        '<button class="delete" onclick="remove(this.parentNode.parentNode.firstChild.innerHTML)">Delete</button></div></div>';
                     TableBody.innerHTML += InnerForBody;
                 }
             }
@@ -99,9 +95,29 @@
         return false;
     }
 
-    function modify(id)
-    {
-        alert(id);
+    function modify(Row) {
+
+        var Id = Row.firstChild.innerHTML;
+        var RowData = [];
+        for (var i = 0; i < Row.childElementCount - 1; i++)
+        {
+            RowData.push(Row.children[i].innerHTML);
+        }
+        console.log(RowData);
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+
+                if (this.readyState == 4 && this.status == 404) {
+                    console.log(404);
+                }
+            }
+
+            request.open("PUT", Row, true);
+            request.send();
+            return false;
+        }
     }
 
     function remove()
