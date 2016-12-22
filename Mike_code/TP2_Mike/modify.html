@@ -73,16 +73,20 @@
                 {
                     var RowData = CaptureData[j];
                     var Col = Object.keys(RowData);
-                    var InnerForBody = '<div class="row">';
+                    var InnerForBody = '<div class="row line">';
                     var InnerForData = "";
+//                    var ParentRow = document.getElementsByClassName('line');
+//                    var ChildRow = ParentRow.childNodes[1];
+//                    var InnerChild = ChildRow.innerHTML;
+//                    console.log(InnerChild);
 
                     for (var k = 0; k < ColNum; k++)
                     {
                         var ColData = RowData[Col[k]];
                         InnerForData += '<div class="col">' + ColData + '</div>';
                     }
-                    InnerForBody += InnerForData + '<div class="col"><button class="modify" onclick="modify(this)">Modify</button>' +
-                        '<button class="delete" onclick="remove(this)">Delete</button></div></div>';
+                    InnerForBody += InnerForData + '<div class="col"><button class="modify" onclick="modify(this.parentNode.parentNode.firstChild.innerHTML)">Modify</button>' +
+                        '<button class="delete" onclick="remove()">Delete</button></div></div>';
                     TableBody.innerHTML += InnerForBody;
                 }
             }
@@ -95,12 +99,12 @@
         return false;
     }
 
-    function remove()
+    function modify(id)
     {
-
+        alert(id);
     }
 
-    function modify()
+    function remove()
     {
 
     }
@@ -127,9 +131,9 @@
     </div>
 </div>
 
-
 <div id="tableheader"></div>
 <div id="tablebody"></div>
 
 </body>
+
 </html>
