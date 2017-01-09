@@ -42,9 +42,11 @@
 
 <script language="JavaScript">
 
+var TheTable = "";
 
     function load(ButtonId)
     {
+        TheTable = ButtonId;
         var request = new XMLHttpRequest();
 
         request.onreadystatechange = function ()
@@ -101,7 +103,6 @@
     function modify(Row)
     {
         var Id = Row.firstChild.innerHTML;
-        var TableName = document.getElementById("tableheader");
         var RowData = [];
         for (var i = 0; i < Row.childElementCount - 1; i++)
         {
@@ -113,15 +114,20 @@
         {
             if (this.readyState == 4 && this.status == 200)
             {
-//                console.log(request.responseText);
+                console.log(request.responseText);
             }
             if (this.readyState == 4 && this.status == 404)
             {
                 console.log(404);
             }
         };
+        var a = {
+            TableName : TheTable,
+            TheId : Id,
+            TheInfo : RowData
+        };
 //            console.log(JSON.stringify(RowData));
-            request.open("PUT", JSON.stringify(TableName , Id , RowData), true);
+            request.open("PUT", JSON.stringify(a), true);
             request.send();
             return false;
 

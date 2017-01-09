@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>C'est le Titre</title>
+</head>
+
+<style>
+    table {
+        width: 30%;
+    }
+    span {
+        color: crimson;
+    }
+    td #4 {
+        background-color: black;
+    }
+    tr.rangee_paire {
+        background-color: blue;
+    }
+</style>
+
+<script language="JavaScript">
+
+    function zebutton()
+    {
+        var k = 0;
+        document.write('<table>');
+        for (var i=0; i<=2; i++)
+        {
+            document.write('<tr>');
+            for (var j=0; j<=2; j++)
+            {
+                document.write('<td>'+ k +'</td>');
+                k++;
+            }
+            document.write('</tr>');
+        }
+        document.write('</table>');
+    }
+
+    function selfdestruct(){
+        document.getElementById('destruct').remove();
+    }
+
+    function destroyall(){
+        var elem = document.getElementsByClassName('piton');
+        console.log(elem);
+        while (elem.length>0) {
+            elem[0].remove();
+        }
+    }
+
+</script>
+
+<body>
+
+<span>C'est le titre</span>
+
+<table width="30%">
+    <tr class="rangee_paire" bgcolor="blue">
+        <td id="1">one</td>
+        <td>two</td>
+        <td>trois</td>
+    </tr>
+    <tr class="rangee_impaire">
+        <td id="4" bgcolor="black">blah</td>
+        <td>bloo</td>
+        <td>bli</td>
+    </tr>
+    <tr class="rangee_paire" bgcolor="blue">
+        <td id="5">non</td>
+        <td>oui</td>
+        <td>non</td>
+    </tr>
+</table>
+
+<button id="bouton" class="piton" onclick="zebutton(this)">Check Ca</button>
+<button id="destruct" class="piton" onclick="selfdestruct(this)">detruit</button>
+<button id="destroyall" class="piton" onclick="destroyall()">ANNIHILATE</button>
+
+</body>
+
+
+</html>

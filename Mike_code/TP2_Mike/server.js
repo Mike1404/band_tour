@@ -113,35 +113,41 @@ function handleRequest(request, response) {
         });
 
     } else if (request.method == "PUT") {
-        var putreq = {
-            "band": "update band set band_name = ? where band_name = ?",
-            "city": "update city set city_name = ? where city_name = ?",
-            "finances_spendings": "update finances set spendings = ? where band_id = ? && tour_date_id = ? ",
-            "finances_revenues": "update finances set revenues = ? where band_id = ? && tour_date_id = ?"
-        };
-        connection.connect(function (err) {
-            if (err)
-            {
-                throw err;
-            }
-            var sqlRequest = putreq[table];
-            connection.query(
-                {
-                    sql: sqlRequest,
-                    values: [param1, param2, param3]
-                },
-                function (err) {
-                    if (err)
-                    {
 
-                        fail400(response);
-                    }
+        var string = decodeURI(request.url).substring(1);
+        var info = JSON.parse(string);
+        console.log(info);
 
-                    ok200(response);
-                }
-            );
-
-        });
+        // response.end(param2);
+        // var putreq = {
+        //     "band": "update band set band_name = ? where band_name = ?",
+        //     "city": "update city set city_name = ? where city_name = ?",
+        //     "finances_spendings": "update finances set spendings = ? where band_id = ? && tour_date_id = ? ",
+        //     "finances_revenues": "update finances set revenues = ? where band_id = ? && tour_date_id = ?"
+        // };
+        // connection.connect(function (err) {
+        //     if (err)
+        //     {
+        //         throw err;
+        //     }
+        //     var sqlRequest = putreq[table];
+        //     connection.query(
+        //         {
+        //             sql: sqlRequest,
+        //             values: [param1, param2, param3]
+        //         },
+        //         function (err) {
+        //             if (err)
+        //             {
+        //
+        //                 fail400(response);
+        //             }
+        //
+        //             ok200(response);
+        //         }
+        //     );
+        //
+        // });
 
     } else if (request.method == "POST") {
         var postreq = {
