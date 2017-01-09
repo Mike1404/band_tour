@@ -97,31 +97,34 @@
         return false;
     }
 
+
     function modify(Row)
     {
         var Id = Row.firstChild.innerHTML;
+        var TableName = document.getElementById("tableheader");
         var RowData = [];
         for (var i = 0; i < Row.childElementCount - 1; i++)
         {
             RowData.push(Row.children[i].innerHTML);
         }
-//        console.log(RowData);
 
         var request = new XMLHttpRequest();
         request.onreadystatechange = function ()
         {
             if (this.readyState == 4 && this.status == 200)
             {
-
-                if (this.readyState == 4 && this.status == 404)
-                {
-                    console.log(404);
-                }
+//                console.log(request.responseText);
             }
-            request.open("PUT", JSON.stringify(RowData), true);
+            if (this.readyState == 4 && this.status == 404)
+            {
+                console.log(404);
+            }
+        };
+//            console.log(JSON.stringify(RowData));
+            request.open("PUT", JSON.stringify(TableName , Id , RowData), true);
             request.send();
             return false;
-        }
+
     }
 
     function remove()
