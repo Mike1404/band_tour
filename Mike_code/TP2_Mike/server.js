@@ -116,38 +116,57 @@ function handleRequest(request, response) {
 
         var string = decodeURI(request.url).substring(1);
         var info = JSON.parse(string);
-        response.end(string);
+        var TableName = info.TableName;
+        var TheId = info.TheId;
+        var RowData = info.TheInfo;
+        // var TheKeys = Object.keys(RowData);
+        // console.log(TheKeys);
+        // console.log(info.TheInfo[1]);
 
-        // response.end(param2);
-        // var putreq = {
-        //     "band": "update band set band_name = ? where band_name = ?",
-        //     "city": "update city set city_name = ? where city_name = ?",
-        //     "finances_spendings": "update finances set spendings = ? where band_id = ? && tour_date_id = ? ",
-        //     "finances_revenues": "update finances set revenues = ? where band_id = ? && tour_date_id = ?"
-        // };
-        // connection.connect(function (err) {
-        //     if (err)
-        //     {
-        //         throw err;
-        //     }
-        //     var sqlRequest = putreq[table];
-        //     connection.query(
-        //         {
-        //             sql: sqlRequest,
-        //             values: [param1, param2, param3]
-        //         },
-        //         function (err) {
-        //             if (err)
-        //             {
-        //
-        //                 fail400(response);
-        //             }
-        //
-        //             ok200(response);
-        //         }
-        //     );
-        //
-        // });
+        var putreq = {
+            "band": "update ? set band_name = ? , financial_status = ? where id = ?",
+            "city": "update ? set city_name = ? , tour_date = ? where id = ?",
+            "finances": "update ? set spendings = ? , revenues= ? where id = ? "
+        };
+        connection.connect(function (err) {
+            if (err)
+            {
+                throw err;
+            }
+            var sqlRequest = putreq[TableName];
+
+            console.log(TableName);
+
+            if (TableName == "finances") {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [TableName, RowData[3], RowData[4], TheId]
+                    },
+                    function (err) {
+                        if (err) {
+                            fail400(response);
+                        }
+                        // ok200(response);
+                    }
+                );
+            } else if (TableName != "finances") {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [TableName, RowData[2], RowData[3], TheId]
+                    },
+                    function (err) {
+                        if (err) {
+                            fail400(response);
+                        }
+                        // ok200(response);
+                    }
+                );
+
+            }
+
+        });
 
     } else if (request.method == "POST") {
         var postreq = {

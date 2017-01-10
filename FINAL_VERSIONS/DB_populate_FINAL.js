@@ -1,6 +1,6 @@
 /**
  * Created by Michael Gabriel et Erick Paquin on 09/11/16.
- * script populates tables in logical manner : 5 bands, 100 cities, one pay / spending amount per band, per city.
+ * script populates tables in logical manner : 5 bands, 20 cities, one pay / spending amount per band, per city.
  */
 
 var mysql = require('mysql');
@@ -32,8 +32,8 @@ connection.connect(function (err, rows) {
     for (var j = 1; j < 21; j++) {           //script for table "city" & "finance"
 
         var city_name = "city" + j;
-        var demain = new Date("2016-0-20");
-        var tour_date = new Date(demain.setDate(demain.getDate() + j));
+        var demain = new Date(2016, 0, 20);
+        var tour_date = new Date(demain.setDate(demain.getDate() + j)).toLocaleDateString();
         connection.query(
             {
                 sql: "insert into city values(null, ?, ?)",
