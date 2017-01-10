@@ -29,7 +29,7 @@ connection.connect(function (err, rows) {
     }
 
 
-    for (var j = 1; j < 101; j++) {           //script for table "city" & "finance"
+    for (var j = 1; j < 21; j++) {           //script for table "city" & "finance"
 
         var city_name = "city" + j;
         var demain = new Date(2016, 0, 20);
@@ -58,7 +58,7 @@ connection.connect(function (err, rows) {
         var bandid = theval;
 
 
-        for (var l = 1; l < 101; l++) {
+        for (var l = 1; l < 21; l++) {
 
             connection.query(
                 {

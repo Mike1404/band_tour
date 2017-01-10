@@ -1,7 +1,7 @@
 # Script par Erick Paquin et Michael Gabriel le 3 Novembre 2016.
 #
 # create user and database
-#create user 'tour_manager'@'localhost' identified by 'abcd';
+# create user 'tour_manager'@'localhost' identified by 'abcd';
 drop database if exists tour_finance;
 create database tour_finance;
 
