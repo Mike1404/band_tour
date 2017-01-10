@@ -56,9 +56,11 @@ var TheTable = "";
                 var TableHeader = document.getElementById("tableheader");
                 var TableBody = document.getElementById("tablebody");
                 var CaptureData = JSON.parse(this.responseText);
-                var RowNum = CaptureData.length;
-                var ColName = Object.keys(CaptureData[0]);  // is an array of strings
-                var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
+                if (CaptureData[0]) {
+                    var RowNum = CaptureData.length;
+                    var ColName = Object.keys(CaptureData[0]);  // is an array of strings
+                    var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
+                }
                 var InnerForHeader = "";
                 var InnerForInsert = "";
 
@@ -71,22 +73,25 @@ var TheTable = "";
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues()">Insert</button></div>';
 
-                TableBody.innerHTML = "";
-                for (var j = 0; j < RowNum; j++)
-                {
-                    var RowData = CaptureData[j];
-                    var Col = Object.keys(RowData);
-                    var InnerForBody = '<div class="row line">';
-                    var InnerForData = "";
+                if (RowNum > 0) {
+                    TableBody.innerHTML = "";
 
-                    for (var k = 0; k < ColNum; k++)
-                    {
-                        var ColData = RowData[Col[k]];
-                        InnerForData += '<div class="col" contenteditable="true">' + ColData + '</div>';
+                    for (var j = 0; j < RowNum; j++) {
+                        var RowData = CaptureData[j];
+                        var Col = Object.keys(RowData);
+                        var InnerForBody = '<div class="row line">';
+                        var InnerForData = "";
+
+                        for (var k = 0; k < ColNum; k++) {
+                            var ColData = RowData[Col[k]];
+                            InnerForData += '<div class="col" contenteditable="true">' + ColData + '</div>';
+                        }
+                        InnerForBody += InnerForData + '<div class="col"><button class="modify" onclick="modify(this.parentNode.parentNode)">Update</button>' +
+                            '<button class="delete" onclick="remove(this.parentNode.parentNode)">Delete</button></div></div>';
+                        TableBody.innerHTML += InnerForBody;
                     }
-                    InnerForBody += InnerForData + '<div class="col"><button class="modify" onclick="modify(this.parentNode.parentNode)">Update</button>' +
-                        '<button class="delete" onclick="remove(this.parentNode.parentNode.firstChild.innerHTML)">Delete</button></div></div>';
-                    TableBody.innerHTML += InnerForBody;
+                } else {
+                    TableBody.innerHTML = "No More Entries, Please Enter More";
                 }
             }
             if (this.readyState == 4 && this.status == 404)
@@ -114,6 +119,7 @@ var TheTable = "";
         {
             if (this.readyState == 4 && this.status == 200)
             {
+                load(request.responseText);
                 console.log(request.responseText);
             }
             if (this.readyState == 4 && this.status == 404)
@@ -121,22 +127,53 @@ var TheTable = "";
                 console.log(404);
             }
         };
+
         var a = {
             TableName : TheTable,
             TheId : Id,
             TheInfo : RowData
         };
 
-        //            console.log(JSON.stringify(RowData));
             request.open("PUT", JSON.stringify(a), true);
             request.send();
             return false;
 
     }
 
-    function remove()
+    function remove(Row)
     {
+        var Id = Row.firstChild.innerHTML;
+        var RowData = [];
 
+        for (var i = 0; i < Row.childElementCount - 1; i++)
+
+        {
+            RowData.push(Row.children[i].innerHTML);
+        }
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function ()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                load(request.responseText);
+                console.log(request.responseText);
+            }
+            if (this.readyState == 4 && this.status == 404)
+            {
+                console.log(404);
+            }
+        };
+
+        var a = {
+            TableName : TheTable,
+            TheId : Id,
+            TheInfo : RowData
+        };
+
+        request.open("DELETE", JSON.stringify(a), true);
+        request.send();
+        return false;
     }
 
     function addvalues()

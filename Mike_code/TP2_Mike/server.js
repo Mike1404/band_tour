@@ -43,19 +43,19 @@ function handleFile(request, response) {
 }
 
 
-function ok200(response) {
+function ok200(response, TableName) {
     response.statusCode = 200;
-    console.log("\nOK Man!!");
+    response.end(TableName);
 }
 
 function ok201(response) {
     response.statusCode = 201;
-    console.log("Created, Bro!");
+    response.end("Created, Bro!");
 }
 
 function fail400(response) {
     response.statusCode = 400;
-    console.log("BAD REQUEST!!");
+    response.end("BAD REQUEST!!");
 }
 
 function handleRequest(request, response) {
@@ -117,54 +117,65 @@ function handleRequest(request, response) {
         var string = decodeURI(request.url).substring(1);
         var info = JSON.parse(string);
         var TableName = info.TableName;
-        var TheId = info.TheId;
+        var TheId = Number(info.TheId);
         var RowData = info.TheInfo;
-        // var TheKeys = Object.keys(RowData);
-        // console.log(TheKeys);
-        // console.log(info.TheInfo[1]);
 
         var putreq = {
-            "band": "update ? set band_name = ? , financial_status = ? where id = ?",
-            "city": "update ? set city_name = ? , tour_date = ? where id = ?",
-            "finances": "update ? set spendings = ? , revenues= ? where id = ? "
+            "band": "update band set band_name = ?, financial_status = ? where id = ?",
+            "city": "update city set city_name = ?, tour_date = ? where id = ?",
+            "finances": "update finances set spendings = ?, revenues = ? where id = ? "
         };
+
         connection.connect(function (err) {
             if (err)
             {
                 throw err;
             }
-            var sqlRequest = putreq[TableName];
 
-            console.log(TableName);
+            var sqlRequest = putreq[TableName];
 
             if (TableName == "finances") {
                 connection.query(
                     {
                         sql: sqlRequest,
-                        values: [TableName, RowData[3], RowData[4], TheId]
+                        values: [RowData[3], RowData[4], TheId]
                     },
                     function (err) {
                         if (err) {
                             fail400(response);
                         }
-                        // ok200(response);
+                        ok200(response, TableName);
                     }
                 );
-            } else if (TableName != "finances") {
+            } else if (TableName == "band") {
                 connection.query(
                     {
                         sql: sqlRequest,
-                        values: [TableName, RowData[2], RowData[3], TheId]
+                        values: [RowData[1], RowData[2], TheId]
                     },
                     function (err) {
                         if (err) {
                             fail400(response);
                         }
-                        // ok200(response);
+                        ok200(response, TableName);
                     }
                 );
 
+            } else {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [RowData[1], RowData[2], TheId]
+                    },
+                    function (err) {
+                        if (err) {
+                            fail400(response);
+                        }
+                        ok200(response, TableName);
+                    }
+                );
             }
+
 
         });
 
@@ -192,94 +203,96 @@ function handleRequest(request, response) {
                     {
                         fail400(response);
                     }
-                    ok201(response);
+                    ok200(response, TableName);
                 }
             );
 
         });
 
-    } else if (request.method == "DELETE") {
+    }
+    else if (request.method == "DELETE") {
 
+        var string = decodeURI(request.url).substring(1);
+        var info = JSON.parse(string);
+        var TableName = info.TableName;
+        var RowData = info.TheInfo;
 
-        if (table == "band") {
+            if (TableName == "band") {
 
-            connection.query(
-                "delete from finances where band_id = (select id from band where band_name = ?)",
-                [param1],
-                function (err) {
-                    if (err)
-                    {
-                        fail400(response);
-                    }
-
-                    connection.query("delete from band where band_name = ?", [param1], function (err) {
-                        if (err)
-                        {
-                            fail400(response);
-                        }
-                        ok200(response);
-                    });
-                });
-
-        }
-
-        else if (table === "city") {
-
-            connection.query(
-                "delete from finances where tour_date_id = (select id from city where city_name = ?)",
-                [param1],
-                function (err) {
-                    if (err)
-                    {
-                        fail400(response);
-                    }
-
-                    connection.query("delete from city where city_name = ?", [param1], function (err) {
-                        if (err)
-                        {
-                            fail400(response);
-                        }
-                        ok200(response);
-                    });
-                });
-
-        } else {
-            var delreq = {
-                "finances_band": "delete from finances where band_id = ?",
-                "finances_city": "delete from finances where tour_date_id = ?",
-                "finances_band_city": "delete from finances where band_id = ? and tour_date_id = ?"
-            };
-
-            connection.connect(function (err) {
-                if (err)
-                {
-                    throw err;
-                }
-
-                var sqlRequest = delreq[table];
                 connection.query(
-                    {
-                        sql: sqlRequest,
-                        values: [param1, param2]
-                    },
+                    "delete from finances where band_id = (select id from band where band_name = ?)",
+                    [RowData[1]],
                     function (err) {
                         if (err)
                         {
                             fail400(response);
                         }
-                        ok200(response);
+
+                        connection.query("delete from band where band_name = ?", [RowData[1]], function (err) {
+                            if (err)
+                            {
+                                fail400(response);
+                            }
+                            ok200(response, TableName);
+                        });
+                    });
+
+            }
+
+            else if (TableName == "city") {
+
+                connection.query(
+                    "delete from finances where tour_date_id = (select id from city where city_name = ?)",
+                    [RowData[1]],
+                    function (err) {
+                        if (err)
+                        {
+                            fail400(response);
+                        }
+
+                        connection.query("delete from city where city_name = ?", [RowData[1]], function (err) {
+                            if (err)
+                            {
+                                fail400(response);
+                            }
+                            ok200(response, TableName);
+                        });
+                    });
+
+            } else {
+                var delreq = {
+                    "finances": "delete from finances where band_id = ? and tour_date_id = ?"
+                };
+
+                connection.connect(function (err) {
+                    if (err)
+                    {
+                        throw err;
                     }
-                );
 
-            });
+                    var sqlRequest = delreq[TableName];
+                    connection.query(
+                        {
+                            sql: sqlRequest,
+                            values: [RowData[1], RowData[2]]
+                        },
+                        function (err) {
+                            if (err)
+                            {
+                                fail400(response);
+                            }
+                            ok200(response, TableName);
+                        }
+                    );
+
+                });
+            }
+
+        } else
+        {
+
+            fail400(response);
         }
-
-    } else
-    {
-
-        fail400(response);
-    }
-
 }
 
 var server = http.createServer(handleRequest);
