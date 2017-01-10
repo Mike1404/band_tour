@@ -18,7 +18,7 @@ financial_status varchar(256)
 create table city(
 id int primary key auto_increment, index(id),
 city_name varchar(256),
-tour_date date
+tour_date varchar(256)
 # band_pay decimal(6,2), index(band_pay)
 );
 
@@ -26,8 +26,8 @@ create table finances(
 id int primary key auto_increment, index(id),
 band_id INT, index(band_id),
 tour_date_id INT, index(tour_date_id),
-spendings decimal(6,2), index(spendings),
-revenues decimal(6,2), index(revenues)
+spendings int(6), index(spendings),
+revenues int(6), index(revenues)
 );
 
 
