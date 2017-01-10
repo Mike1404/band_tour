@@ -56,8 +56,8 @@ var TheTable = "";
                 var TableHeader = document.getElementById("tableheader");
                 var TableBody = document.getElementById("tablebody");
                 var CaptureData = JSON.parse(this.responseText);
+                var RowNum = CaptureData.length;
                 if (CaptureData[0]) {
-                    var RowNum = CaptureData.length;
                     var ColName = Object.keys(CaptureData[0]);  // is an array of strings
                     var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
                 }
