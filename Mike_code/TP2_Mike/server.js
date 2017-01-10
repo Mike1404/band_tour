@@ -116,7 +116,7 @@ function handleRequest(request, response) {
 
         var string = decodeURI(request.url).substring(1);
         var info = JSON.parse(string);
-        console.log(info);
+        response.end(string);
 
         // response.end(param2);
         // var putreq = {

@@ -5,7 +5,7 @@
     <title>Band Finances</title>
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="reset.css">
+    <link href="reset.css" type="text/css">
 </head>
 <style>
 
@@ -128,7 +128,7 @@ var TheTable = "";
         };
 
         //            console.log(JSON.stringify(RowData));
-            request.open("PUT", JSON.stringify(a), true);
+            request.open("PUT", JSON.encode(a), true);
             request.send();
             return false;
 
