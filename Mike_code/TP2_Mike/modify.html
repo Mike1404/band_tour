@@ -38,6 +38,10 @@
         padding-bottom: 1em;
     }
 
+    .hide {
+        visibility: hidden;
+    }
+
 </style>
 
 <script language="JavaScript">
@@ -109,7 +113,14 @@ var ColNum = 0;
                 for (var i = 0; i < ColNum; i++)
                 {
                     InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
-                    InnerForInsert += '<div class="col"><input type="text"></div>';
+                    if (i == 0)
+                    {
+                        InnerForInsert += '<div class="col hide"><input type="text"></div>';
+                    }
+                    else
+                    {
+                        InnerForInsert += '<div class="col"><input type="text"></div>';
+                    }
                 }
                 TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
