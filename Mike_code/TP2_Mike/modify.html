@@ -43,6 +43,7 @@
 <script language="JavaScript">
 
 var TheTable = "";
+
 var BandColName = [];
 var BandColNum = 0;
 var CityColName = [];
@@ -57,8 +58,6 @@ var ColNum = 0;
         TheTable = ButtonId;
 
         var request = new XMLHttpRequest();
-
-
 
         request.onreadystatechange = function ()
         {
@@ -88,27 +87,21 @@ var ColNum = 0;
                         FinancesColNum = Object.keys(CaptureData[0]).length;
                     }
                     if (!TheTable.localeCompare("band"))
-                {
-                    ColName = BandColName.slice(0);
-                    ColNum = BandColNum;
-                }
+                    {
+                        ColName = BandColName.slice(0);
+                        ColNum = 3;
+                    }
                     if (!TheTable.localeCompare("city"))
                     {
                         ColName = CityColName.slice(0);
-                        ColNum = CityColNum;
+                        ColNum = 3;
                     }
                     if (!TheTable.localeCompare("finances"))
                     {
                         ColName = FinancesColName.slice(0);
-                        ColNum = FinancesColNum;
+                        ColNum = 5;
                     }
                 }
-
-
-//                if (CaptureData[0]) {
-//                    var ColName = Object.keys(CaptureData[0]);  // is an array of strings
-//                    var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
-//                }
 
                 var InnerForHeader = "";
                 var InnerForInsert = "";
@@ -122,16 +115,19 @@ var ColNum = 0;
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues(this.parentNode.parentNode)">Insert</button></div>';
 
-                if (RowNum > 0) {
+                if (RowNum > 0)
+                {
                     TableBody.innerHTML = "";
 
-                    for (var j = 0; j < RowNum; j++) {
+                    for (var j = 0; j < RowNum; j++)
+                    {
                         var RowData = CaptureData[j];
                         var Col = Object.keys(RowData);
                         var InnerForBody = '<div class="row line">';
                         var InnerForData = "";
 
-                        for (var k = 0; k < ColNum; k++) {
+                        for (var k = 0; k < ColNum; k++)
+                        {
                             var ColData = RowData[Col[k]];
                             InnerForData += '<div class="col" contenteditable="true">' + ColData + '</div>';
                         }
@@ -139,11 +135,31 @@ var ColNum = 0;
                             '<button class="delete" onclick="remove(this.parentNode.parentNode)">Delete</button></div></div>';
                         TableBody.innerHTML += InnerForBody;
                     }
-                } else {
-                        console.log(ColNum);
+                }
+                else
+                    {
+                    var InnerForHeader = "";
+                    var InnerForInsert = "";
+
+                    if (!TheTable.localeCompare("band"))
+                    {
+                        ColName = BandColName.slice(0);
+                        ColNum = 3;
+                    }
+                    if (!TheTable.localeCompare("city"))
+                    {
+                        ColName = CityColName.slice(0);
+                        ColNum = 3;
+                    }
+                    if (!TheTable.localeCompare("finances"))
+                    {
+                        ColName = FinancesColName.slice(0);
+                        ColNum = 5;
+                    }
+
                     for (var l = 0; l < ColNum; l++)
                     {
-                        InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
+                        InnerForHeader += '<div class="col">' + ColName[l] + '</div>';
                         InnerForInsert += '<div class="col"><input type="text"></div>';
                     }
                     TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
@@ -151,7 +167,6 @@ var ColNum = 0;
                     TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues(this.parentNode.parentNode)">Insert</button></div>';
 
                     TableBody.innerHTML = "No More Entries, Please Enter More";
-
                 }
             }
             if (this.readyState == 4 && this.status == 404)
@@ -188,11 +203,12 @@ var ColNum = 0;
             }
         };
 
-        var a = {
+        var a =
+            {
             TableName : TheTable,
             TheId : Id,
             TheInfo : RowData
-        };
+            };
 
             request.open("PUT", JSON.stringify(a), true);
             request.send();
@@ -225,7 +241,8 @@ var ColNum = 0;
             }
         };
 
-        var a = {
+        var a =
+            {
             TableName : TheTable,
             TheId : Id,
             TheInfo : RowData

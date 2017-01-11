@@ -8,33 +8,38 @@ var fs = require('fs');
 
 const PORT = 8080;
 
-function handleFile(request, response) {
+function handleFile(request, response)
+{
 
-    if (! request.url.match(/^.*\..*$/)) {
+    if (! request.url.match(/^.*\..*$/))
+    {
         return false;
     }
 
     var extension = request.url.split(".")[1];
-    var types = {
+    var types =
+        {
         "html": "text/html",
         "jpg": "image/jpeg",
         "gif": "image/gif",
         "css":"text/stylesheet"
-    };
+        };
 
     var mimeType = types[extension];
-    if ( mimeType != undefined) {
+    if ( mimeType != undefined)
+    {
 
         response.setHeader('Content-Type', mimeType);
     }
 
-    fs.readFile( __dirname + request.url, function (err, data) {
-        if (err) {
+    fs.readFile( __dirname + request.url, function (err, data)
+    {
+        if (err)
+        {
             response.statusCode = 404;
             response.end();
             return true;
         }
-
         response.statusCode = 200;
         response.end(data);
         return true;
@@ -42,21 +47,26 @@ function handleFile(request, response) {
     return true;
 }
 
-function ok200(response, TableName) {
+function ok200(response, TableName)
+{
     response.statusCode = 200;
     response.end(TableName);
 }
 
-function fail400(response) {
+function fail400(response)
+{
     response.statusCode = 400;
     response.end("BAD REQUEST!!");
 }
 
-function handleRequest(request, response) {
-    if (handleFile(request,response)) {
+function handleRequest(request, response)
+{
+    if (handleFile(request,response))
+    {
         return;
     }
-    if (request.url == "/favicon.ico") {
+    if (request.url == "/favicon.ico")
+    {
         fail400(response);
         return;
     }
@@ -75,14 +85,17 @@ function handleRequest(request, response) {
         database: 'tour_finance'
     });
 
-    if (request.method == "GET") {
-        var getreq = {
+    if (request.method == "GET")
+    {
+        var getreq =
+            {
             "band": "select * from band",
             "city": "select * from city",
             "finances": "select * from finances"
-        };
+            };
 
-        connection.connect(function (err) {
+        connection.connect(function (err)
+        {
             if (err)
             {
                 throw err;
@@ -94,7 +107,8 @@ function handleRequest(request, response) {
                 {
                     sql: sqlRequest
                 },
-                function (err, rows) {
+                function (err, rows)
+                {
                     if (err)
                     {
                         fail400(response);
@@ -103,10 +117,10 @@ function handleRequest(request, response) {
                     //ok200(response);
                 }
             );
-
         });
-
-    } else if (request.method == "PUT") {
+    }
+    else if (request.method == "PUT")
+    {
 
         var string = decodeURI(request.url).substring(1);
         var info = JSON.parse(string);
@@ -114,13 +128,15 @@ function handleRequest(request, response) {
         var TheId = Number(info.TheId);
         var RowData = info.TheInfo;
 
-        var putreq = {
+        var putreq =
+            {
             "band": "update band set band_name = ?, financial_status = ? where id = ?",
             "city": "update city set city_name = ?, tour_date = ? where id = ?",
             "finances": "update finances set spendings = ?, revenues = ? where id = ? "
-        };
+            };
 
-        connection.connect(function (err) {
+        connection.connect(function (err)
+        {
             if (err)
             {
                 throw err;
@@ -128,65 +144,76 @@ function handleRequest(request, response) {
 
             var sqlRequest = putreq[TableName];
 
-            if (TableName == "finances") {
+            if (TableName == "finances")
+            {
                 connection.query(
                     {
                         sql: sqlRequest,
                         values: [RowData[3], RowData[4], TheId]
                     },
-                    function (err) {
-                        if (err) {
-                            fail400(response);
-                        }
-                        ok200(response, TableName);
-                    }
-                );
-            } else if (TableName == "band") {
-                connection.query(
+                    function (err)
                     {
-                        sql: sqlRequest,
-                        values: [RowData[1], RowData[2], TheId]
-                    },
-                    function (err) {
-                        if (err) {
-                            fail400(response);
-                        }
-                        ok200(response, TableName);
-                    }
-                );
-
-            } else {
-                connection.query(
-                    {
-                        sql: sqlRequest,
-                        values: [RowData[1], RowData[2], TheId]
-                    },
-                    function (err) {
-                        if (err) {
+                        if (err)
+                        {
                             fail400(response);
                         }
                         ok200(response, TableName);
                     }
                 );
             }
-
-
+            else if (TableName == "band")
+            {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [RowData[1], RowData[2], TheId]
+                    },
+                    function (err)
+                    {
+                        if (err)
+                        {
+                            fail400(response);
+                        }
+                        ok200(response, TableName);
+                    }
+                );
+            }
+            else
+            {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [RowData[1], RowData[2], TheId]
+                    },
+                    function (err)
+                    {
+                        if (err)
+                        {
+                            fail400(response);
+                        }
+                        ok200(response, TableName);
+                    }
+                );
+            }
         });
-
-    } else if (request.method == "POST") {
+    }
+    else if (request.method == "POST")
+    {
 
         var string = decodeURI(request.url).substring(1);
         var info = JSON.parse(string);
         var TableName = info.TableName;
         var RowData = info.TheInfo;
 
-        var postreq = {
+        var postreq =
+            {
             "band": "insert into band values(null, ?, null)",
             "city": "insert into city values(null, ?, ?)",
             "finances": "insert into finances values(null, ?,?,?,?)"
-        };
+            };
 
-        connection.connect(function (err) {
+        connection.connect(function (err)
+        {
             if (err)
             {
                 throw err;
@@ -194,41 +221,51 @@ function handleRequest(request, response) {
 
             var sqlRequest = postreq[TableName];
 
-            if (TableName == "finances") {
+            if (TableName == "finances")
+            {
                 connection.query(
                     {
                         sql: sqlRequest,
                         values: [RowData[1], RowData[2], RowData[3], RowData[4]]
                     },
-                    function (err) {
-                        if (err) {
+                    function (err)
+                    {
+                        if (err)
+                        {
                             fail400(response);
                         }
                         ok200(response, TableName);
                     }
                 );
-            } else if (TableName == "band") {
+            }
+            else if (TableName == "band")
+            {
                 connection.query(
                     {
                         sql: sqlRequest,
                         values: [RowData[1]]
                     },
-                    function (err) {
-                        if (err) {
+                    function (err)
+                    {
+                        if (err)
+                        {
                             fail400(response);
                         }
                         ok200(response, TableName);
                     }
                 );
-
-            } else {
+            }
+            else
+            {
                 connection.query(
                     {
                         sql: sqlRequest,
                         values: [RowData[1], RowData[2]]
                     },
-                    function (err) {
-                        if (err) {
+                    function (err)
+                    {
+                        if (err)
+                        {
                             fail400(response);
                         }
                         ok200(response, TableName);
@@ -238,25 +275,51 @@ function handleRequest(request, response) {
         });
 
     }
-    else if (request.method == "DELETE") {
+    else if (request.method == "DELETE")
+    {
 
         var string = decodeURI(request.url).substring(1);
         var info = JSON.parse(string);
         var TableName = info.TableName;
         var RowData = info.TheInfo;
 
-            if (TableName == "band") {
-
+            if (TableName == "band")
+            {
                 connection.query(
                     "delete from finances where band_id = (select id from band where band_name = ?)",
                     [RowData[1]],
-                    function (err) {
+                    function (err)
+                    {
                         if (err)
                         {
                             fail400(response);
                         }
 
-                        connection.query("delete from band where band_name = ?", [RowData[1]], function (err) {
+                        connection.query("delete from band where band_name = ?", [RowData[1]], function (err)
+                        {
+                            if (err)
+                            {
+                                fail400(response);
+                            }
+                            ok200(response, TableName);
+                        });
+                    });
+            }
+            else if (TableName == "city")
+            {
+
+                connection.query(
+                    "delete from finances where tour_date_id = (select id from city where city_name = ?)",
+                    [RowData[1]],
+                    function (err)
+                    {
+                        if (err)
+                        {
+                            fail400(response);
+                        }
+
+                        connection.query("delete from city where city_name = ?", [RowData[1]], function (err)
+                        {
                             if (err)
                             {
                                 fail400(response);
@@ -266,33 +329,15 @@ function handleRequest(request, response) {
                     });
 
             }
-
-            else if (TableName == "city") {
-
-                connection.query(
-                    "delete from finances where tour_date_id = (select id from city where city_name = ?)",
-                    [RowData[1]],
-                    function (err) {
-                        if (err)
-                        {
-                            fail400(response);
-                        }
-
-                        connection.query("delete from city where city_name = ?", [RowData[1]], function (err) {
-                            if (err)
-                            {
-                                fail400(response);
-                            }
-                            ok200(response, TableName);
-                        });
-                    });
-
-            } else {
-                var delreq = {
+            else
+            {
+                var delreq =
+                    {
                     "finances": "delete from finances where band_id = ? and tour_date_id = ?"
-                };
+                    };
 
-                connection.connect(function (err) {
+                connection.connect(function (err)
+                {
                     if (err)
                     {
                         throw err;
@@ -304,7 +349,8 @@ function handleRequest(request, response) {
                             sql: sqlRequest,
                             values: [RowData[1], RowData[2]]
                         },
-                        function (err) {
+                        function (err)
+                        {
                             if (err)
                             {
                                 fail400(response);
@@ -325,6 +371,7 @@ function handleRequest(request, response) {
 
 var server = http.createServer(handleRequest);
 
-server.listen(PORT, function () {
+server.listen(PORT, function ()
+{
     console.log("Server listening on: http://localhost:%s", PORT);
 });
