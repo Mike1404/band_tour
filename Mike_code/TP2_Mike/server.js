@@ -73,10 +73,6 @@ function handleRequest(request, response)
 
     var url = request.url;
     var table = url.split("/")[1];
-    var param1 = url.split("/")[2];
-    var param2 = url.split("/")[3];
-    var param3 = url.split("/")[4];
-    var param4 = url.split("/")[5];
 
     var connection = mysql.createConnection({
         host: 'localhost',
