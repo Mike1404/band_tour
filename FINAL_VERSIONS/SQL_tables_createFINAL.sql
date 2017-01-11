@@ -11,8 +11,8 @@ use tour_finance;
 # create tables
 create table band(
 id int primary key auto_increment, index(id),
-band_name varchar(256) unique,
-financial_status varchar(256)
+band_name varchar(256) unique
+#financial_status varchar(256)
 );
 
 create table city(

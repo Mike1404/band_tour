@@ -28,7 +28,6 @@ function handleFile(request, response)
     var mimeType = types[extension];
     if ( mimeType != undefined)
     {
-
         response.setHeader('Content-Type', mimeType);
     }
 
@@ -45,6 +44,44 @@ function handleFile(request, response)
         return true;
     });
     return true;
+}
+
+function calculatefinances(connection, response, bandtable)
+{
+    function findfinances(bandid, financeslist)
+    {
+        for (var i = 0; i<financeslist.length; i++)
+        {
+            if (financeslist[i].band_id == bandid)
+            {
+                return financeslist[i];
+            }
+        }
+        return null;
+    }
+
+    var MoneyReq = "select band_id, sum(revenues - spendings) a from finances group by band_id";
+
+    connection.query(
+        {
+            sql: MoneyReq
+        },
+        function (err, rows)
+        {
+            if (err)
+            {
+                fail400(response);
+            }
+
+            for (var i = 0; i < bandtable.length; i++)
+            {
+                var finances = findfinances(bandtable[i].id, rows);
+                bandtable[i].finances = finances.a;
+            }
+            console.log(bandtable);
+            response.end(JSON.stringify(bandtable));
+        }
+    );
 }
 
 function ok200(response, TableName)
@@ -72,7 +109,7 @@ function handleRequest(request, response)
     }
 
     var url = request.url;
-    var table = url.split("/")[1];
+    var Table = url.split("/")[1];
 
     var connection = mysql.createConnection({
         host: 'localhost',
@@ -97,7 +134,7 @@ function handleRequest(request, response)
                 throw err;
             }
 
-            var sqlRequest = getreq[table];
+            var sqlRequest = getreq[Table];
 
             connection.query(
                 {
@@ -109,8 +146,14 @@ function handleRequest(request, response)
                     {
                         fail400(response);
                     }
-                    response.end(JSON.stringify(rows));
-                    //ok200(response);
+                    if (Table == "band")
+                    {
+                        calculatefinances(connection, response, rows);
+                    }
+                    else
+                    {
+                        response.end(JSON.stringify(rows));
+                    }
                 }
             );
         });
