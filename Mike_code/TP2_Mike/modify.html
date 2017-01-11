@@ -43,11 +43,22 @@
 <script language="JavaScript">
 
 var TheTable = "";
+var BandColName = [];
+var BandColNum = 0;
+var CityColName = [];
+var CityColNum = 0;
+var FinancesColName = [];
+var FinancesColNum = 0;
+var ColName = [];
+var ColNum = 0;
 
     function load(ButtonId)
     {
         TheTable = ButtonId;
+
         var request = new XMLHttpRequest();
+
+
 
         request.onreadystatechange = function ()
         {
@@ -57,10 +68,48 @@ var TheTable = "";
                 var TableBody = document.getElementById("tablebody");
                 var CaptureData = JSON.parse(this.responseText);
                 var RowNum = CaptureData.length;
-                if (CaptureData[0]) {
-                    var ColName = Object.keys(CaptureData[0]);  // is an array of strings
-                    var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
+
+
+                if (CaptureData[0])
+                {
+                    if (!TheTable.localeCompare("band"))
+                    {
+                        BandColName = Object.keys(CaptureData[0]);
+                        BandColNum = Object.keys(CaptureData[0]).length;
+                    }
+                    if (!TheTable.localeCompare("city"))
+                    {
+                       CityColName = Object.keys(CaptureData[0]);
+                       CityColNum = Object.keys(CaptureData[0]).length;
+                    }
+                    if (!TheTable.localeCompare("finances"))
+                    {
+                        FinancesColName = Object.keys(CaptureData[0]);
+                        FinancesColNum = Object.keys(CaptureData[0]).length;
+                    }
+                    if (!TheTable.localeCompare("band"))
+                {
+                    ColName = BandColName.slice(0);
+                    ColNum = BandColNum;
                 }
+                    if (!TheTable.localeCompare("city"))
+                    {
+                        ColName = CityColName.slice(0);
+                        ColNum = CityColNum;
+                    }
+                    if (!TheTable.localeCompare("finances"))
+                    {
+                        ColName = FinancesColName.slice(0);
+                        ColNum = FinancesColNum;
+                    }
+                }
+
+
+//                if (CaptureData[0]) {
+//                    var ColName = Object.keys(CaptureData[0]);  // is an array of strings
+//                    var ColNum = Object.keys(CaptureData[0]).length;  // is number of columns in given table
+//                }
+
                 var InnerForHeader = "";
                 var InnerForInsert = "";
 
@@ -91,7 +140,18 @@ var TheTable = "";
                         TableBody.innerHTML += InnerForBody;
                     }
                 } else {
+                        console.log(ColNum);
+                    for (var l = 0; l < ColNum; l++)
+                    {
+                        InnerForHeader += '<div class="col">' + ColName[i] + '</div>';
+                        InnerForInsert += '<div class="col"><input type="text"></div>';
+                    }
+                    TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
+                    TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
+                    TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues(this.parentNode.parentNode)">Insert</button></div>';
+
                     TableBody.innerHTML = "No More Entries, Please Enter More";
+
                 }
             }
             if (this.readyState == 4 && this.status == 404)
