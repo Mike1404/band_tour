@@ -78,7 +78,6 @@ function calculatefinances(connection, response, bandtable)
                 var finances = findfinances(bandtable[i].id, rows);
                 bandtable[i].finances = finances.a;
             }
-            console.log(bandtable);
             response.end(JSON.stringify(bandtable));
         }
     );
