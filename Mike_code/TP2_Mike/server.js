@@ -42,15 +42,9 @@ function handleFile(request, response) {
     return true;
 }
 
-
 function ok200(response, TableName) {
     response.statusCode = 200;
     response.end(TableName);
-}
-
-function ok201(response) {
-    response.statusCode = 201;
-    response.end("Created, Bro!");
 }
 
 function fail400(response) {
@@ -180,6 +174,12 @@ function handleRequest(request, response) {
         });
 
     } else if (request.method == "POST") {
+
+        var string = decodeURI(request.url).substring(1);
+        var info = JSON.parse(string);
+        var TableName = info.TableName;
+        var RowData = info.TheInfo;
+
         var postreq = {
             "band": "insert into band values(null, ?, null)",
             "city": "insert into city values(null, ?, ?)",
@@ -192,21 +192,49 @@ function handleRequest(request, response) {
                 throw err;
             }
 
-            var sqlRequest = postreq[table];
-            connection.query(
-                {
-                    sql: sqlRequest,
-                    values: [param1, param2, param3, param4]
-                },
-                function (err) {
-                    if (err)
-                    {
-                        fail400(response);
-                    }
-                    ok200(response, TableName);
-                }
-            );
+            var sqlRequest = postreq[TableName];
 
+            if (TableName == "finances") {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [RowData[1], RowData[2], RowData[3], RowData[4]]
+                    },
+                    function (err) {
+                        if (err) {
+                            fail400(response);
+                        }
+                        ok200(response, TableName);
+                    }
+                );
+            } else if (TableName == "band") {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [RowData[1]]
+                    },
+                    function (err) {
+                        if (err) {
+                            fail400(response);
+                        }
+                        ok200(response, TableName);
+                    }
+                );
+
+            } else {
+                connection.query(
+                    {
+                        sql: sqlRequest,
+                        values: [RowData[1], RowData[2]]
+                    },
+                    function (err) {
+                        if (err) {
+                            fail400(response);
+                        }
+                        ok200(response, TableName);
+                    }
+                );
+            }
         });
 
     }

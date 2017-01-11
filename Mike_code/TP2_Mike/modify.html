@@ -71,7 +71,7 @@ var TheTable = "";
                 }
                 TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
-                TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues()">Insert</button></div>';
+                TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues(this.parentNode.parentNode)">Insert</button></div>';
 
                 if (RowNum > 0) {
                     TableBody.innerHTML = "";
@@ -176,9 +176,39 @@ var TheTable = "";
         return false;
     }
 
-    function addvalues()
+    function addvalues(Row)
     {
+//        var Id = Row.firstChild.innerHTML;
+        var RowData = [];
+//        console.log(Row.childElementCount);
+        for (var i = 0; i < Row.childElementCount - 1; i++)
 
+        {
+            RowData.push(Row.children[i].firstChild.value);
+        }
+
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function ()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                load(request.responseText);
+                console.log(request.responseText);
+            }
+            if (this.readyState == 4 && this.status == 404)
+            {
+                console.log(404);
+            }
+        };
+
+        var a = {
+            TableName : TheTable,
+            TheInfo : RowData
+        };
+
+        request.open("POST", JSON.stringify(a), true);
+        request.send();
+        return false;
     }
 
 
