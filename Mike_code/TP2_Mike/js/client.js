@@ -74,6 +74,8 @@ function load(ButtonId)
                 if (i == 0)
                 {
                     InnerForInsert += '<div class="col hide"><input type="text"></div>';
+                } else if(ButtonId == "band" && i == 2){
+                    InnerForInsert += '<div class="col hide"><input type="text"></div>';
                 }
                 else
                 {
@@ -82,7 +84,7 @@ function load(ButtonId)
             }
             TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
             TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
-            TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode);">Insert</button></div>';
+            TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode, TheTable);">Insert</button></div>';
 
             if (RowNum > 0)
             {
@@ -263,24 +265,47 @@ function addvalues(Row)
     return false;
 }
 
-function validateit(Row){
+function validateit(Row, TheTable){
     var bad = "";
-    for (var i = 1; i < Row.childElementCount - 1; i++)
 
-    {
-        if(Row.children[i].firstChild.value == ""){
-            bad = "yes";
+    if(TheTable.localeCompare("band")==0){
+        for (var i = 1; i < Row.childElementCount - 2; i++)
+
+        {
+            if(Row.children[i].firstChild.value == ""){
+                bad = "yes";
+
+            }
+
+            if(bad=="yes"){
+                alert("Vous devez remplir tout les champs!");
+                bad = "";
+                return false;
+            }else{
+                addvalues(Row);
+            }
+
+        }
+    } else {
+        for (var i = 1; i < Row.childElementCount - 1; i++)
+
+        {
+            if(Row.children[i].firstChild.value == ""){
+                bad = "yes";
+
+            }
 
         }
 
+        if(bad=="yes"){
+            alert("Vous devez remplir tout les champs!");
+            bad = "";
+            return false;
+        }else{
+            addvalues(Row);
+        }
     }
 
-    if(bad=="yes"){
-        alert("Vous devez remplir tout les champs!");
-        bad = "";
-        return false;
-    }else{
-        addvalues(Row);
-    }
+
 
 }
