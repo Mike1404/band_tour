@@ -119,7 +119,7 @@ function handleRequest(request, response)
     var Table = url.split("/")[1];
 
     var pool = mysql.createPool({
-        connectionLimit : 50,
+        connectionLimit : 500,
         host: 'localhost',
         user: 'tour_manager',
         password: 'abcd',
