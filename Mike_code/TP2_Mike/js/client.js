@@ -265,7 +265,7 @@ function addvalues(Row)
 
 function validateit(Row){
     var bad = "";
-    for (var i = 0; i < Row.childElementCount - 1; i++)
+    for (var i = 1; i < Row.childElementCount - 1; i++)
 
     {
         if(Row.children[i].firstChild.value == ""){
@@ -275,8 +275,9 @@ function validateit(Row){
 
     }
 
-    if(bad="yes"){
+    if(bad=="yes"){
         alert("Vous devez remplir tout les champs!");
+        bad = "";
         return false;
     }else{
         addvalues(Row);
