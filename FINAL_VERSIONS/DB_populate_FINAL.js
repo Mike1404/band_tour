@@ -36,7 +36,7 @@ connection.connect(function (err) {
 
                                 connection.query(
                                     {
-                                        sql: "insert into band values(null, ?, null)",
+                                        sql: "insert into band values(null, ?)",
                                         values: [band_name]
                                     });
                             }
