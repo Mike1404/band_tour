@@ -22,7 +22,7 @@ function handleFile(request, response)
         "html": "text/html",
         "jpg": "image/jpeg",
         "gif": "image/gif",
-        "css":"text/stylesheet"
+        "css":"text/css"
         };
 
     var mimeType = types[extension];
@@ -76,7 +76,12 @@ function calculatefinances(connection, response, bandtable)
             for (var i = 0; i < bandtable.length; i++)
             {
                 var finances = findfinances(bandtable[i].id, rows);
-                bandtable[i].finances = finances.a;
+                if(finances == null){ // adding new bands does NOT create finance record automatically so gotta check for this.
+                    bandtable[i].finances = 0;
+                }else{
+                    bandtable[i].finances = finances.a;
+                }
+
             }
             response.end(JSON.stringify(bandtable));
         }
@@ -168,7 +173,7 @@ function handleRequest(request, response)
 
         var putreq =
             {
-            "band": "update band set band_name = ?, financial_status = ? where id = ?",
+            "band": "update band set band_name = ? where id = ?",
             "city": "update city set city_name = ?, tour_date = ? where id = ?",
             "finances": "update finances set spendings = ?, revenues = ? where id = ? "
             };
@@ -204,7 +209,7 @@ function handleRequest(request, response)
                 connection.query(
                     {
                         sql: sqlRequest,
-                        values: [RowData[1], RowData[2], TheId]
+                        values: [RowData[1], TheId]
                     },
                     function (err)
                     {
@@ -245,7 +250,7 @@ function handleRequest(request, response)
 
         var postreq =
             {
-            "band": "insert into band values(null, ?, null)",
+            "band": "insert into band values(null, ?)",
             "city": "insert into city values(null, ?, ?)",
             "finances": "insert into finances values(null, ?,?,?,?)"
             };

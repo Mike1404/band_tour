@@ -1,0 +1,33 @@
+/* makes box model take into account border and padding for total width: */
+
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+@media (min-width: 500px) {
+    .row {
+        width: 100%;
+        display: table;
+        table-layout: fixed
+    }
+
+    .col {
+        display: table-cell;
+        text-align: center;
+        border: 1px black;
+    }
+}
+
+body {
+    text-align: center;
+}
+
+h1 {
+    padding-bottom: 1em;
+}
+
+.hide {
+    visibility: hidden;
+}
