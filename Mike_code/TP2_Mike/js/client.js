@@ -140,7 +140,7 @@ function load(ButtonId)
                 }
                 TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
-                TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues(this.parentNode.parentNode)">Insert</button></div>';
+                TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode);">Insert</button></div>';
 
                 TableBody.innerHTML = "No More Entries, Please Enter More";
             }
