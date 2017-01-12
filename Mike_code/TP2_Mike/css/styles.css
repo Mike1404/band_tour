@@ -10,24 +10,63 @@
     .row {
         width: 100%;
         display: table;
-        table-layout: fixed
+        table-layout: fixed;
+        padding: 5px 0 5px 0;
     }
 
     .col {
         display: table-cell;
         text-align: center;
-        border: 1px black;
+        padding: 0 5px 0 5px;
     }
 }
 
 body {
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    color: white;
     text-align: center;
+    background-image: url("PUG.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 h1 {
-    padding-bottom: 1em;
+    padding: 1em;
+}
+
+span {
+    font-weight: bold;
 }
 
 .hide {
     visibility: hidden;
 }
+
+.container {
+    margin: auto;
+    max-width: 1000px;
+}
+
+h2 {
+    padding: 1em;
+}
+
+.buttons button {
+    width: 12em;
+    height: 8em;
+}
+
+.buttons {
+
+}
+
+input[type="text"] {
+    width: 100px;
+    height: 25px;
+    border: 1px solid #CCC;
+    font-family: 'Fira Sans Extra Condensed', sans-serif;
+    font-size: 1.25em;
+    padding: 0.2em;
+}
+
