@@ -153,7 +153,7 @@ function load(ButtonId)
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode, TheTable);">Insert</button></div>';
 
-                TableBody.innerHTML = "No More Entries, Please Enter More";
+                TableBody.innerHTML = "<span>No More Entries, Please Enter More</span>";
             }
         }
         if (this.readyState == 4 && this.status == 404)
