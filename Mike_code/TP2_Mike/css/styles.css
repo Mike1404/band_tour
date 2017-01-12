@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 300px) {
     .row {
         width: 100%;
         display: table;

@@ -84,20 +84,23 @@ function calculatefinances(connection, response, bandtable)
 
             }
             response.end(JSON.stringify(bandtable));
+            connection.release();
         }
     );
 }
 
-function ok200(response, TableName)
+function ok200(response, TableName, connection)
 {
     response.statusCode = 200;
     response.end(TableName);
+    connection.release();
 }
 
-function fail400(response)
+function fail400(response, connection)
 {
     response.statusCode = 400;
     response.end("BAD REQUEST!!");
+    connection.release();
 }
 
 function handleRequest(request, response)
@@ -115,7 +118,8 @@ function handleRequest(request, response)
     var url = request.url;
     var Table = url.split("/")[1];
 
-    var connection = mysql.createConnection({
+    var pool = mysql.createPool({
+        connectionLimit : 50,
         host: 'localhost',
         user: 'tour_manager',
         password: 'abcd',
@@ -131,7 +135,7 @@ function handleRequest(request, response)
             "finances": "select * from finances"
             };
 
-        connection.connect(function (err)
+        pool.getConnection(function (err, connection)
         {
             if (err)
             {
@@ -148,7 +152,7 @@ function handleRequest(request, response)
                 {
                     if (err)
                     {
-                        fail400(response);
+                        fail400(response, connection);
                     }
                     if (Table == "band")
                     {
@@ -157,6 +161,7 @@ function handleRequest(request, response)
                     else
                     {
                         response.end(JSON.stringify(rows));
+                        connection.release();
                     }
                 }
             );
@@ -178,11 +183,12 @@ function handleRequest(request, response)
             "finances": "update finances set spendings = ?, revenues = ? where id = ? "
             };
 
-        connection.connect(function (err)
+        pool.getConnection(function (err, connection)
         {
             if (err)
             {
                 throw err;
+                connection.release();
             }
 
             var sqlRequest = putreq[TableName];
@@ -198,9 +204,9 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
-                        ok200(response, TableName);
+                        ok200(response, TableName, connection);
                     }
                 );
             }
@@ -215,9 +221,9 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
-                        ok200(response, TableName);
+                        ok200(response, TableName, connection);
                     }
                 );
             }
@@ -232,9 +238,9 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
-                        ok200(response, TableName);
+                        ok200(response, TableName, connection);
                     }
                 );
             }
@@ -255,7 +261,7 @@ function handleRequest(request, response)
             "finances": "insert into finances values(null, ?,?,?,?)"
             };
 
-        connection.connect(function (err)
+        pool.getConnection(function (err, connection)
         {
             if (err)
             {
@@ -275,9 +281,11 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
+                        } else{
+                            ok200(response, TableName, connection);
                         }
-                        ok200(response, TableName);
+
                     }
                 );
             }
@@ -292,9 +300,9 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
-                        ok200(response, TableName);
+                        ok200(response, TableName, connection);
                     }
                 );
             }
@@ -309,9 +317,9 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
-                        ok200(response, TableName);
+                        ok200(response, TableName, connection);
                     }
                 );
             }
@@ -326,6 +334,8 @@ function handleRequest(request, response)
         var TableName = info.TableName;
         var RowData = info.TheInfo;
 
+        pool.getConnection(function (err, connection)
+        {
             if (TableName == "band")
             {
                 connection.query(
@@ -335,16 +345,16 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
 
                         connection.query("delete from band where band_name = ?", [RowData[1]], function (err)
                         {
                             if (err)
                             {
-                                fail400(response);
+                                fail400(response, connection);
                             }
-                            ok200(response, TableName);
+                            ok200(response, TableName, connection);
                         });
                     });
             }
@@ -358,16 +368,16 @@ function handleRequest(request, response)
                     {
                         if (err)
                         {
-                            fail400(response);
+                            fail400(response, connection);
                         }
 
                         connection.query("delete from city where city_name = ?", [RowData[1]], function (err)
                         {
                             if (err)
                             {
-                                fail400(response);
+                                fail400(response, connection);
                             }
-                            ok200(response, TableName);
+                            ok200(response, TableName, connection);
                         });
                     });
 
@@ -379,7 +389,7 @@ function handleRequest(request, response)
                     "finances": "delete from finances where band_id = ? and tour_date_id = ?"
                     };
 
-                connection.connect(function (err)
+                pool.getConnection(function (err, connection)
                 {
                     if (err)
                     {
@@ -396,19 +406,19 @@ function handleRequest(request, response)
                         {
                             if (err)
                             {
-                                fail400(response);
+                                fail400(response, connection);
                             }
-                            ok200(response, TableName);
+                            ok200(response, TableName, connection);
                         }
                     );
 
                 });
             }
-
+    });
         } else
         {
 
-            fail400(response);
+            fail400(response, pool);
         }
 }
 

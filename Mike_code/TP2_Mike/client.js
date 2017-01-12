@@ -82,7 +82,7 @@ function load(ButtonId)
             }
             TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
             TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
-            TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="addvalues(this.parentNode.parentNode)">Insert</button></div>';
+            TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode);">Insert</button></div>';
 
             if (RowNum > 0)
             {
@@ -261,4 +261,25 @@ function addvalues(Row)
     request.open("POST", JSON.stringify(a), true);
     request.send();
     return false;
+}
+
+function validateit(Row){
+    var bad = "";
+    for (var i = 0; i < Row.childElementCount - 1; i++)
+
+    {
+        if(Row.children[i].firstChild.value == ""){
+            bad = "yes";
+
+        }
+
+    }
+
+    if(bad="yes"){
+        alert("Vous devez remplir tout les champs!");
+        return false;
+    }else{
+        addvalues(Row);
+    }
+
 }
