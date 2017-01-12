@@ -138,11 +138,20 @@ function load(ButtonId)
                 for (var l = 0; l < ColNum; l++)
                 {
                     InnerForHeader += '<div class="col">' + ColName[l] + '</div>';
-                    InnerForInsert += '<div class="col"><input type="text"></div>';
+                    if (l == 0)
+                    {
+                        InnerForInsert += '<div class="col hide"><input type="text"></div>';
+                    } else if(ButtonId == "band" && l == 2){
+                        InnerForInsert += '<div class="col hide"><input type="text"></div>';
+                    }
+                    else
+                    {
+                        InnerForInsert += '<div class="col"><input type="text"></div>';
+                    }
                 }
                 TableHeader.innerHTML = '<h2>' + 'Table ' + ButtonId + '</h2>';
                 TableHeader.innerHTML += '<div class="row">' + InnerForHeader + '<div class="col">Action</div></div>';
-                TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode);">Insert</button></div>';
+                TableHeader.innerHTML += '<div class="row">' + InnerForInsert + '<div class="col"><button onclick="validateit(this.parentNode.parentNode, TheTable);">Insert</button></div>';
 
                 TableBody.innerHTML = "No More Entries, Please Enter More";
             }
