@@ -130,9 +130,9 @@ function handleRequest(request, response)
     {
         var getreq =
             {
-            "band": "select * from band",
-            "city": "select * from city",
-            "finances": "select * from finances"
+            "band": "select * from band order by id desc",
+            "city": "select * from city order by id desc",
+            "finances": "select * from finances order by id desc"
             };
 
         pool.getConnection(function (err, connection)

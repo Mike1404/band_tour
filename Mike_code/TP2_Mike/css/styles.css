@@ -46,6 +46,7 @@ span {
 .container {
     margin: auto;
     max-width: 1000px;
+    padding: 10px;
 }
 
 h2 {
@@ -57,16 +58,24 @@ h2 {
     height: 8em;
 }
 
-.buttons {
-
-}
 
 input[type="text"] {
     width: 100px;
     height: 25px;
     border: 1px solid #CCC;
     font-family: 'Fira Sans Extra Condensed', sans-serif;
-    font-size: 1.25em;
+    font-size: 1.0em;
     padding: 0.2em;
 }
 
+input:focus{
+background: palegreen;
+    border: 2px solid #ffffff;
+}
+
+div[contenteditable=true]:focus {
+    background: rgba(0,0,0,0.3); /* transparent bg */
+    resize:none; /* disable resizing */
+    font-weight: bold;
+    border: 1px gray solid;
+}
